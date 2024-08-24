@@ -29,7 +29,7 @@ public class SpawnHandle : MonoBehaviour
             for (int i = 0; i < randomNums; i++)
             {
                 enemiesPrefab.name = item.Key.tag + $" #{i + 1}";
-                enemiesPrefab.transform.position = mapD.StartPoint.transform.position;
+                //enemiesPrefab.transform.position = mapD.StartPoint.transform.position;
                 enemies.Add(enemiesPrefab);
             }
 

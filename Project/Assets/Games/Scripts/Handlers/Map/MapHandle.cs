@@ -1,6 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Tilemaps;
 
 public class MapHandle : MonoBehaviour
 {
@@ -10,13 +11,18 @@ public class MapHandle : MonoBehaviour
     private void Awake()
     {
         mapD = GetComponent<MapDatas>();
-        AutoGenerateMap();
+        AutoGenerateMap(Random.Range(0, 3));
     }
     #endregion
 
     #region -- Auto create map --
-    private void AutoGenerateMap()
+    private void AutoGenerateMap(int biomeNums)
     {
+        if (biomeNums == 0)
+        {
+            floor = mapSprite.ForestFloor;
+        }
+
         ResizeMap();
         for (int y = mapD.MapH * -1; y <= mapD.MapH; y++)
         {
@@ -26,7 +32,7 @@ public class MapHandle : MonoBehaviour
             }
         }
 
-        CreatePoint();
+        //CreatePoint();
     }
     #endregion
 
@@ -49,7 +55,8 @@ public class MapHandle : MonoBehaviour
     #region -- Create floor --
     private void CreateFloor(int x, int y)
     {
-        GameObject tile = Instantiate(mapD.MapUnit);
+        
+        /*GameObject tile = Instantiate(mapD.MapUnit);
 
         tile.transform.position = new Vector2(x, y);
 
@@ -57,7 +64,7 @@ public class MapHandle : MonoBehaviour
 
         if (y < 0 && Abs(y) == mapD.MapH) mapD.EndTile.Add(tile);
 
-        mapD.PathTile.Add(tile);
+        mapD.PathTile.Add(tile);*/
     }
     #endregion
 
@@ -82,8 +89,8 @@ public class MapHandle : MonoBehaviour
             sItem.color = Color.green;
         }
 
-        FindRoad(mapD.StartTile[eSpawn].transform.position, mapD.EndTile[pHouse].transform.position);
-        SetUpPoint(mapD.StartTile[eSpawn], mapD.EndTile[pHouse]);
+        //FindRoad(mapD.StartTile[eSpawn].transform.position, mapD.EndTile[pHouse].transform.position);
+        //SetUpPoint(mapD.StartTile[eSpawn], mapD.EndTile[pHouse]);
     }
     #endregion
 
@@ -112,7 +119,7 @@ public class MapHandle : MonoBehaviour
                 index = FindObject(i, curPos.y);
                 SetUpRoad(index);
                 mapD.RoadTile.Add(mapD.PathTile[index]);
-                if (i == curPos.x) mapD.RoadPoint.Add(mapD.PathTile[index]);
+                //if (i == curPos.x) mapD.RoadPoint.Add(mapD.PathTile[index]);
             }
         }
         else if (curPos.x > endPos.x)
@@ -123,7 +130,7 @@ public class MapHandle : MonoBehaviour
                 index = FindObject(i, curPos.y);
                 SetUpRoad(index);
                 mapD.RoadTile.Add(mapD.PathTile[index]);
-                if (i == curPos.x) mapD.RoadPoint.Add(mapD.PathTile[index]);
+                //if (i == curPos.x) mapD.RoadPoint.Add(mapD.PathTile[index]);
             }
         }
         curPos.x = endPos.x;
@@ -134,7 +141,7 @@ public class MapHandle : MonoBehaviour
             index = FindObject(curPos.x, i);
             SetUpRoad(index);
             mapD.RoadTile.Add(mapD.PathTile[index]);
-            if (i == curPos.y) mapD.RoadPoint.Add(mapD.PathTile[index]);
+            //if (i == curPos.y) mapD.RoadPoint.Add(mapD.PathTile[index]);
         }
     }
 
@@ -171,14 +178,14 @@ public class MapHandle : MonoBehaviour
         start.name = "StartPoint";
         start.tag = "RoadTile";
         start.layer = mapD.Layer;
-        mapD.StartPoint = start;
+        //mapD.StartPoint = start;
         SpriteRenderer sStart = start.GetComponent<SpriteRenderer>();
         sStart.color = Color.red;
 
         end.name = "EndPoint";
         end.tag = "RoadTile";
         end.layer = mapD.Layer;
-        mapD.EndPoint = end;
+        //mapD.EndPoint = end;
         SpriteRenderer sEnd = end.GetComponent<SpriteRenderer>();
         sEnd.color = Color.blue;
     }
@@ -189,6 +196,8 @@ public class MapHandle : MonoBehaviour
     #region --- Field ---
 
     [SerializeField] private MapDatas mapD;
+    [SerializeField] private MapSpriteData mapSprite;
+    [SerializeField] private List<TileBase> floor;
 
     #endregion
 }

@@ -1,7 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MoveHandle : MonoBehaviour
 {
@@ -9,61 +10,109 @@ public class MoveHandle : MonoBehaviour
 
     private void SetStats()
     {
-        switch (gameObject.name)
-        {
-            case "MiniVanguard":
-                stats.MiniVan();
-                break;
-        }
+        stats.MiniVan();
     }
 
     private void Start()
     {
-        gameObject.transform.position = mapD.StartPoint.transform.position;
+        mapD.StartPoint = FindCentalPos((int)mapD.StartPoint.x, (int)mapD.StartPoint.y);
+        mapD.EndPoint = FindCentalPos((int)mapD.EndPoint.x, (int)mapD.EndPoint.y);
+        for (int i = 0; i < mapD.RoadPoint.Count; i++)
+        {
+            mapD.RoadPoint[i] = FindCentalPos((int)mapD.RoadPoint[i].x, (int)mapD.RoadPoint[i].y);
+        }
+
+        gameObject.transform.position = mapD.StartPoint;
         curPos = gameObject.transform.position;
 
         SetStats();
+
+       
+
+        roadPointC = 0;
     }
 
     private void MoveH()
     {
-        Vector2 dicPos = tarPos - curPos;
-        dicPos /= 2;
+        Vector3 dic = (mapD.RoadPoint[roadPointC] - curPos);
+        float mag = dic.magnitude;
+        Vector2 normal = dic.normalized;
+        Debug.Log(normal);
 
-        gameObject.transform.position += (Vector3)(dicPos * 8) * Time.deltaTime;
+        if (mag < 1 && roadPointC < mapD.RoadPoint.Count)
+        {
+            roadPointC++;
+        }
+
+        if (normal.y < 0)
+        {
+            body.velocity = new Vector2(body.velocity.x, 0.5f * normal.y * 2);
+        }
+        else
+        {
+            body.velocity = new Vector2(0.5f * normal.x * 2, body.velocity.y);
+        }
+
+        // Cập nhật curPos sau khi di chuyển
+        curPos = gameObject.transform.position;
+    }
+
+    private Vector3 FindCentalPos(int x, int y)
+    {
+        Vector3 cellPos = tileMap.CellToWorld(new Vector3Int(x, y));
+        Vector3 cellSize = tileMap.cellSize;
+        Vector3 result = cellPos + (cellSize / 2);
+
+        result.z = -1;
+
+        return result;
     }
 
     private void Update()
     {
-        if ((Vector3)curPos == mapD.EndPoint.transform.position)
+        if (curPos == mapD.EndPoint)
             Destroy(gameObject);
-
-        if (curPos.y <= tarPos.y) curPos = tarPos;
 
         MoveH();
     }
 
-    private void CheckGround()
+    private void MoveVerH()
     {
-        /*if (mapD.RoadPoint.ContainsKey(curPos + Vector2.down))
+        if (roadPointC != 0)
         {
-            tarPos = curPos + Vector2.down;
-        }*/
+            Vector3 dic = (mapD.RoadPoint[roadPointC - 1] - curPos);
+            float mag = dic.magnitude;
+            Vector2 normal = dic.normalized;
+
+            if (dic.normalized.y != 0)
+            {
+                body.velocity = new Vector2(body.velocity.x, 0.5f * normal.y * 8);
+            }
+            else
+            {
+                body.velocity = new Vector2(0.5f * normal.y * 8, body.velocity.y);
+            }
+        }
     }
 
     private void FixedUpdate()
     {
-        CheckGround();
+        MoveVerH();
     }
 
     #endregion
 
     #region --- Field ---
 
+    [SerializeField] private Tilemap tileMap;
     [SerializeField] private SetUpStats stats;
-    [SerializeField] private Vector2 curPos;
-    [SerializeField] private Vector2 tarPos;
     [SerializeField] private MapDatas mapD;
+    [SerializeField] private Rigidbody2D body;
+
+    [SerializeField] private Vector3 curPos;
+    [SerializeField] private Vector3 tarPos;
+
+    private int roadPointC;
 
     #endregion
 }
