@@ -11,7 +11,7 @@ public class SetUpStats : DefaultStats
         atk = 10;
         atkRange = 1;
         atkSpeed = 5;
-        speed = 8;
+        speed = 2f;
         costDrop = 1;
     }
 }

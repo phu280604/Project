@@ -27,11 +27,12 @@ public class MoveHandle : MonoBehaviour
 
         SetStats();
 
-       
 
+        axisSpeed = 0.01f;
         roadPointC = 0;
     }
 
+    #region -- Update coming soon --
     private void MoveH()
     {
         Vector3 dic = (mapD.RoadPoint[roadPointC] - curPos);
@@ -44,18 +45,19 @@ public class MoveHandle : MonoBehaviour
             roadPointC++;
         }
 
-        if (normal.y < 0)
+        if (normal.y < 0 && normal.x == 0)
+            body.velocity = new Vector2(body.velocity.x, 0.1f * normal.y * 8);
+        else if (normal.y < 0 && normal.x != 0) 
         {
-            body.velocity = new Vector2(body.velocity.x, 0.5f * normal.y * 2);
+            body.velocity = new Vector2(0.1f * normal.x * 8, 0.3f * normal.y * 8);
         }
-        else
-        {
-            body.velocity = new Vector2(0.5f * normal.x * 2, body.velocity.y);
-        }
+        else if (normal.y == 0 && normal.x != 0)
+            body.velocity = new Vector2(0.1f * normal.x * 8, body.velocity.y);
 
         // Cập nhật curPos sau khi di chuyển
         curPos = gameObject.transform.position;
     }
+    #endregion
 
     private Vector3 FindCentalPos(int x, int y)
     {
@@ -68,36 +70,35 @@ public class MoveHandle : MonoBehaviour
         return result;
     }
 
+    private void MoveHanle()
+    {
+        Vector2 dir = mapD.RoadPoint[roadPointC] - curPos;
+        Vector2 normalize = dir.normalized;
+        float magnitude = dir.magnitude;
+
+        FlipEnemy(normalize.x);
+
+        Debug.Log("magnitude: "+magnitude);
+        if (magnitude < 0.5)
+            roadPointC++;
+
+        transform.Translate(normalize * Time.deltaTime * stats.Speed);
+
+        curPos = gameObject.transform.position;
+    }
+
+    private void FlipEnemy(float x)
+    {
+        if (x < 0) transform.localScale = new Vector3(-1, 1, 1);
+        else transform.localScale = new Vector3(1, 1, 1);
+    }
+
     private void Update()
     {
         if (curPos == mapD.EndPoint)
             Destroy(gameObject);
 
-        MoveH();
-    }
-
-    private void MoveVerH()
-    {
-        if (roadPointC != 0)
-        {
-            Vector3 dic = (mapD.RoadPoint[roadPointC - 1] - curPos);
-            float mag = dic.magnitude;
-            Vector2 normal = dic.normalized;
-
-            if (dic.normalized.y != 0)
-            {
-                body.velocity = new Vector2(body.velocity.x, 0.5f * normal.y * 8);
-            }
-            else
-            {
-                body.velocity = new Vector2(0.5f * normal.y * 8, body.velocity.y);
-            }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        MoveVerH();
+        if (roadPointC < mapD.RoadPoint.Count) MoveHanle();
     }
 
     #endregion
@@ -113,6 +114,8 @@ public class MoveHandle : MonoBehaviour
     [SerializeField] private Vector3 tarPos;
 
     private int roadPointC;
+
+    private float axisSpeed;
 
     #endregion
 }

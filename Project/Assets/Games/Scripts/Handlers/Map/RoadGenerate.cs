@@ -12,7 +12,7 @@ public class RoadGenerate : MonoBehaviour
     void Start()
     {
         GenarateRoad();
-        Invoke("StartSpawn", 5f);
+        Invoke("StartSpawn", 2f);
     }
 
     #region -- Genarate road --

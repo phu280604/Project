@@ -1070,7 +1070,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1223107526}
   - component: {fileID: 1223107528}
-  - component: {fileID: 1223107527}
   m_Layer: 0
   m_Name: Enemies
   m_TagString: Untagged
@@ -1094,28 +1093,6 @@ Transform:
   - {fileID: 519959337}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1223107527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1223107525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d675db266ef32114c8649c915fef4796, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cost: 0
-  hp: 0
-  def: 0
-  atk: 0
-  atkSpeed: 0
-  atkRange: 0
-  speed: 0
-  debuffEff: 0
-  debuffRes: 0
-  costDrop: 0
 --- !u!114 &1223107528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1289,7 +1266,7 @@ PrefabInstance:
     - target: {fileID: 8076799592317574389, guid: d6f4bddd582415044a91789ccd60da19, type: 3}
       propertyPath: stats
       value: 
-      objectReference: {fileID: 1223107527}
+      objectReference: {fileID: 9189618535883040584}
     - target: {fileID: 8076799592317574389, guid: d6f4bddd582415044a91789ccd60da19, type: 3}
       propertyPath: tileMap
       value: 
@@ -1299,6 +1276,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d6f4bddd582415044a91789ccd60da19, type: 3}
+--- !u!114 &9189618535883040584 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6684778803773551866, guid: d6f4bddd582415044a91789ccd60da19, type: 3}
+  m_PrefabInstance: {fileID: 9189618535883040583}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d675db266ef32114c8649c915fef4796, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

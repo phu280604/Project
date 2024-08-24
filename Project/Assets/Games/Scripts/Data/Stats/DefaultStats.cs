@@ -11,8 +11,10 @@ public class DefaultStats : MonoBehaviour
     [SerializeField] protected int atk;
     [SerializeField] protected int atkSpeed;
     [SerializeField] protected int atkRange;
-    [SerializeField] protected int speed;
+    [SerializeField] protected float speed;
     [SerializeField] protected int debuffEff;
     [SerializeField] protected int debuffRes;
     [SerializeField] protected int costDrop;
+
+    public float Speed { get { return speed; } set { speed = value; } }
 }
