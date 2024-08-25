@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class EnemiesCommands : MonoBehaviour
 {
-    private void Start()
-    {
-        spawnH = gameObject.GetComponent<SpawnHandle>();
-    }
+    [SerializeField] private static List<GameObject> enemies = new List<GameObject>();
 
-    [SerializeField] private SpawnHandle spawnH;
+    public List<GameObject> Enemies { get { return enemies; }  set { enemies = value; } }
 }

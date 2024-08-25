@@ -5,7 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - RoadTile
-  - MiniVanguard
+  - Turrets
+  - Enemies
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,8 @@ TagManager:
   - Water
   - UI
   - RoadTile
-  - 
-  - 
+  - SniperTur
+  - MiniVan
   - 
   - 
   - 

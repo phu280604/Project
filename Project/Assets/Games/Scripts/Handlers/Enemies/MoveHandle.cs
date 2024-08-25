@@ -7,13 +7,26 @@ using UnityEngine.Tilemaps;
 public class MoveHandle : MonoBehaviour
 {
     #region --- Method ---
+    private void AddSpawn()
+    {
+        commands.Enemies.Add(gameObject);
+    }
 
     private void SetStats()
     {
-        stats.MiniVan();
+        switch (layer)
+        {
+            case int n when n == LayerMask.GetMask("MiniVan"):
+                stats.MiniVan();
+                break;
+
+            default:
+                Debug.Log("Can't find layer.");
+                break;
+        }
     }
 
-    private void Start()
+    private void SetSizePos()
     {
         mapD.StartPoint = FindCentalPos((int)mapD.StartPoint.x, (int)mapD.StartPoint.y);
         mapD.EndPoint = FindCentalPos((int)mapD.EndPoint.x, (int)mapD.EndPoint.y);
@@ -24,12 +37,20 @@ public class MoveHandle : MonoBehaviour
 
         gameObject.transform.position = mapD.StartPoint;
         curPos = gameObject.transform.position;
+    }
 
-        SetStats();
-
-
+    private void SetDefaultValue()
+    {
         axisSpeed = 0.01f;
         roadPointC = 0;
+    }
+
+    private void Start()
+    {
+        AddSpawn();
+        SetSizePos();
+        SetDefaultValue();
+        SetStats();
     }
 
     #region -- Update coming soon --
@@ -78,7 +99,6 @@ public class MoveHandle : MonoBehaviour
 
         FlipEnemy(normalize.x);
 
-        Debug.Log("magnitude: "+magnitude);
         if (magnitude < 0.5)
             roadPointC++;
 
@@ -95,9 +115,6 @@ public class MoveHandle : MonoBehaviour
 
     private void Update()
     {
-        if (curPos == mapD.EndPoint)
-            Destroy(gameObject);
-
         if (roadPointC < mapD.RoadPoint.Count) MoveHanle();
     }
 
@@ -105,10 +122,12 @@ public class MoveHandle : MonoBehaviour
 
     #region --- Field ---
 
+    [SerializeField] private EnemiesCommands commands;
     [SerializeField] private Tilemap tileMap;
-    [SerializeField] private SetUpStats stats;
+    [SerializeField] private StatsEnemies stats;
     [SerializeField] private MapDatas mapD;
     [SerializeField] private Rigidbody2D body;
+    [SerializeField] private LayerMask layer;
 
     [SerializeField] private Vector3 curPos;
     [SerializeField] private Vector3 tarPos;
