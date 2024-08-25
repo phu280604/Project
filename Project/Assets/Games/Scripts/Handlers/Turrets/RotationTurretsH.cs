@@ -4,15 +4,11 @@ using UnityEngine;
 
 public class RotationTurretsH : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region --- Method ---
+    public void Rotation(Vector2 tarPos)
     {
-        
+        transform.LookAt(tarPos);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    #endregion
 }

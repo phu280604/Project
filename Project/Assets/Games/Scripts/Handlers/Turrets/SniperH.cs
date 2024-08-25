@@ -7,6 +7,7 @@ public class SniperH : MonoBehaviour
 {
     #region --- Method ---
 
+    #region -- Set up stats --
     private void StatsSetUp()
     {
         switch (layer)
@@ -16,28 +17,59 @@ public class SniperH : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
     private void Start()
     {
         StatsSetUp();
     }
 
+    #region -- Checking and Shoot --
     private void EnemiesChecker()
     {
         float distance = 0;
-        foreach (GameObject enemies in eCommands.Enemies)
+        if (enemy == null)
         {
-            distance = ((Vector2)(transform.position - enemies.transform.position)).magnitude;
-            if (distance <= statsH.AtkRange)
+            foreach (GameObject enemies in eCommands.Enemies)
             {
-                Debug.Log("shoot");
+                distance = ((Vector2)(transform.position - enemies.transform.position)).magnitude;
+                if (distance <= statsH.AtkRange)
+                {
+                    enemy = enemies;
+                    break;
+                }
             }
         }
-    }
+        else
+        {
+            distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
+            if (distance <= statsH.AtkRange && fireDelay == 0.1f)
+            {
 
-    private void Update()
+                shoot.Shoot(transform.position, enemy.transform.position);
+            }
+            else if (distance > statsH.AtkRange)
+                enemy = null;
+        }
+
+        if (fireDelay <= statsH.AtkSpeed)
+            fireDelay += 0.2f;
+        else
+            fireDelay = 0.1f;
+    }
+    #endregion
+
+    #region -- Rotation turrets --
+    private void RotationTurrets()
+    {
+        rotationH.Rotation(enemy.transform.position);
+    }
+    #endregion
+
+    private void FixedUpdate()
     {
         EnemiesChecker();
+        if (enemy != null) RotationTurrets();
     }
 
     #endregion
@@ -51,6 +83,9 @@ public class SniperH : MonoBehaviour
     [SerializeField] private StatsTurrets statsH;
 
     [SerializeField] private EnemiesCommands eCommands;
+
+    [SerializeField] private GameObject enemy = null;
+    [SerializeField] private float fireDelay = 0.1f;
 
     #endregion
 }

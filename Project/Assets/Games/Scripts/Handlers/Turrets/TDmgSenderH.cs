@@ -4,15 +4,8 @@ using UnityEngine;
 
 public class TDmgSenderH : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Debug.Log(gameObject.name);
     }
 }

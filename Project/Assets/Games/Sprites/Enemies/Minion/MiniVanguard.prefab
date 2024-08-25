@@ -76,6 +76,9 @@ MonoBehaviour:
   stats: {fileID: 6684778803773551866}
   mapD: {fileID: 0}
   body: {fileID: 2446793318419138283}
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
   curPos: {x: 0, y: 0, z: 0}
   tarPos: {x: 0, y: 0, z: 0}
 --- !u!50 &2446793318419138283
@@ -215,3 +218,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 6684778803773551866}
+  commands: {fileID: 0}

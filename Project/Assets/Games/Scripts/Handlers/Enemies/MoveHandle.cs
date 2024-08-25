@@ -66,14 +66,14 @@ public class MoveHandle : MonoBehaviour
             roadPointC++;
         }
 
-        if (normal.y < 0 && normal.x == 0)
+        /*if (normal.y < 0 && normal.x == 0)
             body.velocity = new Vector2(body.velocity.x, 0.1f * normal.y * 8);
         else if (normal.y < 0 && normal.x != 0) 
         {
             body.velocity = new Vector2(0.1f * normal.x * 8, 0.3f * normal.y * 8);
         }
         else if (normal.y == 0 && normal.x != 0)
-            body.velocity = new Vector2(0.1f * normal.x * 8, body.velocity.y);
+            body.velocity = new Vector2(0.1f * normal.x * 8, body.velocity.y);*/
 
         // Cập nhật curPos sau khi di chuyển
         curPos = gameObject.transform.position;
@@ -126,7 +126,6 @@ public class MoveHandle : MonoBehaviour
     [SerializeField] private Tilemap tileMap;
     [SerializeField] private StatsEnemies stats;
     [SerializeField] private MapDatas mapD;
-    [SerializeField] private Rigidbody2D body;
     [SerializeField] private LayerMask layer;
 
     [SerializeField] private Vector3 curPos;

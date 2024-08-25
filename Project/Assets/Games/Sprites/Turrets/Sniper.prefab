@@ -172,13 +172,14 @@ GameObject:
   - component: {fileID: 8519370967504975123}
   - component: {fileID: 3794039595478489347}
   - component: {fileID: 5588655498229549082}
+  - component: {fileID: 3547395655650313528}
   m_Layer: 0
   m_Name: Bullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8519370967504975123
 Transform:
   m_ObjectHideFlags: 0
@@ -220,6 +221,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0729caa06982d8459267e4984797578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tarPos: {x: 0, y: 0}
+  speedBullet: 0
+  bulletPrefab: {fileID: 0}
+--- !u!114 &3547395655650313528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261513856229002467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887dc3686fdc52e4c96a04ee23b17d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4375226263697814790
 GameObject:
   m_ObjectHideFlags: 0
@@ -251,7 +267,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8841601901357574765}
@@ -271,7 +287,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.031530127
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -339,6 +355,8 @@ MonoBehaviour:
   rotationH: {fileID: 4766597104748254016}
   statsH: {fileID: 2807562155805376633}
   eCommands: {fileID: 0}
+  enemy: {fileID: 0}
+  fireDelay: 0.1
 --- !u!114 &4122890576106173365
 MonoBehaviour:
   m_ObjectHideFlags: 0
