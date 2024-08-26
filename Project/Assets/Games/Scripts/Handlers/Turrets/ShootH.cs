@@ -4,14 +4,27 @@ using UnityEngine;
 
 public class ShootH : MonoBehaviour
 {
+    #region --- Method ---
 
     public void Shoot(Vector2 startPos, Vector2 tarPos)
     {
-        this.tarPos = tarPos;
+        if (bullets.Count <= 1)
+        // Duplicate prefab.
         bulletPrefab = Instantiate(gameObject);
-        bulletPrefab.transform.position = new Vector3(startPos.x, startPos.y, -1);
+
+        // Set position.
+        this.tarPos = tarPos;
+        Vector3 dir = new Vector3(startPos.x, startPos.y, -1);
+        Vector3 dirTar = (Vector3)tarPos - dir;
+        dirTar.Normalize();
+        dir += dirTar;
+        bulletPrefab.transform.position = dir;
+
+        // Set active.
         bulletPrefab.SetActive(true);
-        speedBullet = 2;
+
+        // Set speed.
+        speedBullet = 5;
     }
 
     private void Hit()
@@ -30,6 +43,8 @@ public class ShootH : MonoBehaviour
         Hit();
     }
 
+    #endregion
+
     #region --- Field ---
 
     [SerializeField] private GameObject bulletPrefab = null;
@@ -37,6 +52,7 @@ public class ShootH : MonoBehaviour
     [SerializeField] private SelfDestroy selfDestroy;
 
     [SerializeField] private Vector2 tarPos;
+    [SerializeField] private List<GameObject> bullets;
     [SerializeField] private int speedBullet;
 
     #endregion

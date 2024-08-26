@@ -11,6 +11,6 @@ public class StatsTurrets : DefaultStats
         def = 20;
         atk = 20;
         atkRange = 3;
-        atkSpeed = 5;
+        atkDelay = 3;
     }
 }

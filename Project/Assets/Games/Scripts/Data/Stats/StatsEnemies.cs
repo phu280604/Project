@@ -4,14 +4,20 @@ using UnityEngine;
 
 public class StatsEnemies : DefaultStats
 {
+    #region --- Method ---
+
+    #region -- Minion Vanguard --
     public void MiniVan()
     {
         hp = 75;
         def = 10;
         atk = 10;
         atkRange = 1;
-        atkSpeed = 5;
-        speed = 2f;
+        atkDelay = 3;
+        speed = 0.3f;
         costDrop = 1;
     }
+    #endregion
+
+    #endregion
 }

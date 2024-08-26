@@ -4,7 +4,15 @@ using UnityEngine;
 
 public class EnemiesCommands : MonoBehaviour
 {
-    [SerializeField] private static List<GameObject> enemies = new List<GameObject>();
+    #region --- Method ---
 
     public List<GameObject> Enemies { get { return enemies; }  set { enemies = value; } }
+
+    #endregion
+
+    #region --- Field ---
+
+    [SerializeField] private static List<GameObject> enemies = new List<GameObject>();
+
+    #endregion
 }

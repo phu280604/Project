@@ -14,6 +14,7 @@ public class SniperH : MonoBehaviour
         {
             case int n when n == LayerMask.GetMask("SniperTur"):
                 statsH.StatsSniper();
+                fireDelay = 0;
                 break;
         }
     }
@@ -43,30 +44,35 @@ public class SniperH : MonoBehaviour
         else
         {
             distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
-            if (distance <= statsH.AtkRange && fireDelay == 0.1f)
+            if (distance <= statsH.AtkRange && fireDelay == 0)
             {
-
                 shoot.Shoot(transform.position, enemy.transform.position);
+                DelayTimer();
             }
             else if (distance > statsH.AtkRange)
                 enemy = null;
         }
+    }
+    #endregion
 
-        if (fireDelay <= statsH.AtkSpeed)
-            fireDelay += 0.2f;
+    #region -- Delay timer --
+    private void DelayTimer()
+    {
+        if (fireDelay <= statsH.AtkDelay)
+            fireDelay += Time.deltaTime;
         else
-            fireDelay = 0.1f;
+            fireDelay = 0;
     }
     #endregion
 
     #region -- Rotation turrets --
     private void RotationTurrets()
     {
-        rotationH.Rotation(enemy.transform.position);
+        rotationH.Rotation(enemy);
     }
     #endregion
 
-    private void FixedUpdate()
+    private void Update()
     {
         EnemiesChecker();
         if (enemy != null) RotationTurrets();
@@ -76,16 +82,20 @@ public class SniperH : MonoBehaviour
 
     #region --- Field ---
 
+    [Header("Layer")]
     [SerializeField] LayerMask layer;
 
+    [Header("Turrets component")]
     [SerializeField] private ShootH shoot;
     [SerializeField] private RotationTurretsH rotationH;
     [SerializeField] private StatsTurrets statsH;
 
+    [Header("Enemy component")]
     [SerializeField] private EnemiesCommands eCommands;
-
     [SerializeField] private GameObject enemy = null;
-    [SerializeField] private float fireDelay = 0.1f;
+
+    [Header("Value")]
+    [SerializeField] private float fireDelay;
 
     #endregion
 }

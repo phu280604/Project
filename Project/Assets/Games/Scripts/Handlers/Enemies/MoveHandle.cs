@@ -7,11 +7,15 @@ using UnityEngine.Tilemaps;
 public class MoveHandle : MonoBehaviour
 {
     #region --- Method ---
+
+    #region -- Add obj to command --
     private void AddSpawn()
     {
         commands.Enemies.Add(gameObject);
     }
+    #endregion
 
+    #region -- Set stats
     private void SetStats()
     {
         switch (layer)
@@ -25,7 +29,9 @@ public class MoveHandle : MonoBehaviour
                 break;
         }
     }
+    #endregion
 
+    #region -- Reset position --
     private void SetSizePos()
     {
         mapD.StartPoint = FindCentalPos((int)mapD.StartPoint.x, (int)mapD.StartPoint.y);
@@ -38,14 +44,16 @@ public class MoveHandle : MonoBehaviour
         gameObject.transform.position = mapD.StartPoint;
         curPos = gameObject.transform.position;
     }
+    #endregion
 
+    #region -- Set default value --
     private void SetDefaultValue()
     {
-        axisSpeed = 0.01f;
         roadPointC = 0;
     }
+    #endregion
 
-    private void Start()
+    private void Awake()
     {
         AddSpawn();
         SetSizePos();
@@ -80,6 +88,7 @@ public class MoveHandle : MonoBehaviour
     }
     #endregion
 
+    #region -- Finding central position --
     private Vector3 FindCentalPos(int x, int y)
     {
         Vector3 cellPos = tileMap.CellToWorld(new Vector3Int(x, y));
@@ -90,7 +99,9 @@ public class MoveHandle : MonoBehaviour
 
         return result;
     }
+    #endregion
 
+    #region -- Move handler --
     private void MoveHanle()
     {
         Vector2 dir = mapD.RoadPoint[roadPointC] - curPos;
@@ -102,16 +113,21 @@ public class MoveHandle : MonoBehaviour
         if (magnitude < 0.5)
             roadPointC++;
 
-        transform.Translate(normalize * Time.deltaTime * stats.Speed);
+        transform.Translate(normalize * Time.fixedDeltaTime * stats.Speed);
 
         curPos = gameObject.transform.position;
-    }
 
+        Debug.Log(commands.Enemies.Count);
+    }
+    #endregion
+
+    #region -- Flip enemies --
     private void FlipEnemy(float x)
     {
         if (x < 0) transform.localScale = new Vector3(-1, 1, 1);
         else transform.localScale = new Vector3(1, 1, 1);
     }
+    #endregion
 
     private void Update()
     {
@@ -132,8 +148,6 @@ public class MoveHandle : MonoBehaviour
     [SerializeField] private Vector3 tarPos;
 
     private int roadPointC;
-
-    private float axisSpeed;
 
     #endregion
 }

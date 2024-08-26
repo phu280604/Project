@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 135246792271677457}
   - component: {fileID: 4827430388784764635}
+  - component: {fileID: 7591628891056875207}
   m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
@@ -161,6 +162,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2903202, y: 0.978226}
   m_EdgeRadius: 0
+--- !u!114 &7591628891056875207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381619862080799868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e0cfd9ebf0cc4c4b8c0c31d446d141f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2261513856229002467
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,6 +186,7 @@ GameObject:
   - component: {fileID: 3794039595478489347}
   - component: {fileID: 5588655498229549082}
   - component: {fileID: 3547395655650313528}
+  - component: {fileID: 5193151515273029135}
   m_Layer: 0
   m_Name: Bullets
   m_TagString: Untagged
@@ -189,8 +203,8 @@ Transform:
   m_GameObject: {fileID: 2261513856229002467}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: 0.952, z: 0}
-  m_LocalScale: {x: 0.68, y: 0.67, z: 1}
+  m_LocalPosition: {x: -0.012, y: 0.95, z: 0}
+  m_LocalScale: {x: 0.68, y: 0.68, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 584087890529125334}
@@ -209,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5d4357b90b6f944591fd07880a80160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 2807562155805376633}
 --- !u!114 &5588655498229549082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,9 +236,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0729caa06982d8459267e4984797578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 2261513856229002467}
+  statsTurrets: {fileID: 2807562155805376633}
+  selfDestroy: {fileID: 3547395655650313528}
   tarPos: {x: 0, y: 0}
   speedBullet: 0
-  bulletPrefab: {fileID: 0}
 --- !u!114 &3547395655650313528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +253,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887dc3686fdc52e4c96a04ee23b17d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &5193151515273029135
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261513856229002467}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 1
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 7
 --- !u!1 &4375226263697814790
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +293,6 @@ GameObject:
   - component: {fileID: 4766597104748254016}
   - component: {fileID: 2807562155805376633}
   - component: {fileID: 2710261148491671815}
-  - component: {fileID: 4122890576106173365}
   m_Layer: 7
   m_Name: Sniper
   m_TagString: Turrets
@@ -267,7 +310,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8841601901357574765}
@@ -298,9 +341,9 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 7
 --- !u!114 &4766597104748254016
 MonoBehaviour:
@@ -357,18 +400,6 @@ MonoBehaviour:
   eCommands: {fileID: 0}
   enemy: {fileID: 0}
   fireDelay: 0.1
---- !u!114 &4122890576106173365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4375226263697814790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e0cfd9ebf0cc4c4b8c0c31d446d141f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5187457608954856176
 GameObject:
   m_ObjectHideFlags: 0
