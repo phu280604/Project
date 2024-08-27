@@ -8,12 +8,6 @@ public class MoveHandle : MonoBehaviour
 {
     #region --- Method ---
 
-    #region -- Add obj to command --
-    private void AddSpawn()
-    {
-        commands.Enemies.Add(gameObject);
-    }
-    #endregion
 
     #region -- Set stats
     private void SetStats()
@@ -22,6 +16,14 @@ public class MoveHandle : MonoBehaviour
         {
             case int n when n == LayerMask.GetMask("MiniVan"):
                 stats.MiniVan();
+                break;
+
+            case int n when n == LayerMask.GetMask("MiniGuard"):
+                stats.MiniGuard();
+                break;
+
+            case int n when n == LayerMask.GetMask("MiniSniper"):
+                stats.MiniSniper();
                 break;
 
             default:
@@ -34,13 +36,6 @@ public class MoveHandle : MonoBehaviour
     #region -- Reset position --
     private void SetSizePos()
     {
-        mapD.StartPoint = FindCentalPos((int)mapD.StartPoint.x, (int)mapD.StartPoint.y);
-        mapD.EndPoint = FindCentalPos((int)mapD.EndPoint.x, (int)mapD.EndPoint.y);
-        for (int i = 0; i < mapD.RoadPoint.Count; i++)
-        {
-            mapD.RoadPoint[i] = FindCentalPos((int)mapD.RoadPoint[i].x, (int)mapD.RoadPoint[i].y);
-        }
-
         gameObject.transform.position = mapD.StartPoint;
         curPos = gameObject.transform.position;
     }
@@ -55,7 +50,6 @@ public class MoveHandle : MonoBehaviour
 
     private void Awake()
     {
-        AddSpawn();
         SetSizePos();
         SetDefaultValue();
         SetStats();
@@ -88,19 +82,6 @@ public class MoveHandle : MonoBehaviour
     }
     #endregion
 
-    #region -- Finding central position --
-    private Vector3 FindCentalPos(int x, int y)
-    {
-        Vector3 cellPos = tileMap.CellToWorld(new Vector3Int(x, y));
-        Vector3 cellSize = tileMap.cellSize;
-        Vector3 result = cellPos + (cellSize / 2);
-
-        result.z = -1;
-
-        return result;
-    }
-    #endregion
-
     #region -- Move handler --
     private void MoveHanle()
     {
@@ -110,22 +91,20 @@ public class MoveHandle : MonoBehaviour
 
         FlipEnemy(normalize.x);
 
-        if (magnitude < 0.5)
+        if (magnitude < 0.25)
             roadPointC++;
 
         transform.Translate(normalize * Time.fixedDeltaTime * stats.Speed);
 
         curPos = gameObject.transform.position;
-
-        Debug.Log(commands.Enemies.Count);
     }
     #endregion
 
     #region -- Flip enemies --
     private void FlipEnemy(float x)
     {
-        if (x < 0) transform.localScale = new Vector3(-1, 1, 1);
-        else transform.localScale = new Vector3(1, 1, 1);
+        if (x < 0) transform.localScale = new Vector3(1, 1, 1);
+        else transform.localScale = new Vector3(-1, 1, 1);
     }
     #endregion
 

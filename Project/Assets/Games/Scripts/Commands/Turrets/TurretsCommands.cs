@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class TurretsCommands : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        
+        turrets = new GameObject[7];
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject[] Turrets { get { return turrets; } set{ turrets = value; } }
+
+    [SerializeField] private GameObject[] turrets;
 }

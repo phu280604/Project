@@ -5,41 +5,117 @@ using UnityEngine;
 
 public class SpawnHandle : MonoBehaviour
 {
-    private void Start()
+    #region --- Method ---
+
+    #region -- Spawn minion --
+    private void SpawnMiniVan()
     {
-        mapD = GameObject.Find("Map").GetComponent<MapDatas>();
-
-        enemies = new List<GameObject> ();
-        enemyCategories = new Dictionary<GameObject, int>();
-
-        enemyCategories[GameObject.FindWithTag("MiniVanguard")] = 0;
-        enemyCategories[GameObject.FindWithTag("MiniGuard")] = 0;
-        enemyCategories[GameObject.FindWithTag("MiniSniper")] = 0;
-        enemyCategories[GameObject.FindWithTag("EliDefender")] = 0;
-        enemyCategories[GameObject.FindWithTag("EliSniper")] = 0;
-
-        //maxEnemy = Random.Range(7, 10);
-
-        int minEnemy = 0;
-
-        foreach (KeyValuePair<GameObject, int> item in enemyCategories)
+        foreach (var item in minion)
         {
-            GameObject enemiesPrefab = Instantiate(item.Key);
-            int randomNums = Random.Range(minEnemy, maxEnemy);
-            for (int i = 0; i < randomNums; i++)
-            {
-                enemiesPrefab.name = item.Key.tag + $" #{i + 1}";
-                //enemiesPrefab.transform.position = mapD.StartPoint.transform.position;
-                enemies.Add(enemiesPrefab);
-            }
-
-            //enemyCategories[item.Key] = randomNums;
-            minEnemy = randomNums;
+            int nums = Random.Range(3, 6);
+            quanlity[item] = nums;
         }
     }
+    #endregion
 
-    [SerializeField] private Dictionary<GameObject, int> enemyCategories;
-    [SerializeField] private List<GameObject> enemies;
-    [SerializeField] private MapDatas mapD;
-    [SerializeField] private int maxEnemy;
+    #region -- Duplicate enemy --
+    private void DuplicateEnemy()
+    {
+        foreach (var item in quanlity)
+        {
+            for (int i = 0; i < item.Value; i++)
+            {
+                GameObject enemiesDup = Instantiate(item.Key);
+                enemiesDup.name = enemiesDup.name + " #" + (i + 1);
+                commands.Enemies.Add(enemiesDup);
+            }
+        }
+    }
+    #endregion
+
+    private void Start()
+    {
+        quanlity = new Dictionary<GameObject, int>();
+        maxEnemies = 0;
+        curEnemies = 0;
+        delaySpawn = 5f;
+        spawn = 0;
+
+        SpawnMiniVan();
+
+        foreach (var item in quanlity)
+        {
+            maxEnemies += item.Value;
+        }
+
+        DuplicateEnemy();
+    }
+
+    #region -- Spawn --
+    private void Spawn()
+    {
+        int nums = Random.Range(2, 4);
+
+        if (curEnemies + nums < maxEnemies && curEnemies < maxEnemies)
+        {
+            while (nums > 0)
+            {
+                int category = Random.Range(0, commands.Enemies.Count);
+                if (!commands.Enemies[category].activeSelf)
+                {
+                    commands.Enemies[category].SetActive(true);
+                    nums--;
+                    curEnemies++;
+                }
+            }
+        }
+        else if (curEnemies + nums > maxEnemies && curEnemies < maxEnemies)
+        {
+            foreach(var item in commands.Enemies)
+            {
+                if (!item.activeSelf)
+                {
+                    item.SetActive(true);
+                    curEnemies++;
+                }
+            }
+        }
+
+        spawn += Time.deltaTime;
+    }
+    #endregion
+
+    #region -- Spawn delay --
+    private void DelaySpawn()
+    {
+        if (spawn <= delaySpawn)
+            spawn += Time.deltaTime;
+        else spawn = 0;
+    }
+    #endregion
+
+    private void FixedUpdate()
+    {
+        if (managerCommands.StartTime)
+        {
+            if (spawn == 0 && curEnemies <= maxEnemies)
+                Spawn();
+            else if (spawn != 0 && curEnemies <= maxEnemies)
+                DelaySpawn();
+        }
+    }
+    #endregion
+
+    #region --- Field ---
+
+    [SerializeField] private GameManagerCommands managerCommands;
+    [SerializeField] private EnemiesCommands commands;
+    [SerializeField] private int maxEnemies;
+    [SerializeField] private List<GameObject> minion;
+    [SerializeField] private Dictionary<GameObject, int> quanlity;
+    private int curEnemies;
+    private float delaySpawn;
+    private float spawn;
+
+    #endregion
 }

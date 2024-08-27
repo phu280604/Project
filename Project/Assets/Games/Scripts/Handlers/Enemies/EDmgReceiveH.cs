@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EDmgRecerverH : MonoBehaviour
+public class EDmgReceiverH : MonoBehaviour
 {
     #region --- Method ---
 

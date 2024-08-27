@@ -6,11 +6,13 @@ public class SelfDestroy : MonoBehaviour
 {
     void Start()
     {
-        Invoke("SeltDes", 2f);
+        Invoke("SeltDes", stats.AtkDelay);
     }
 
     public void SeltDes()
     {
         Destroy(gameObject);
     }
+
+    [SerializeField] private StatsTurrets stats;
 }

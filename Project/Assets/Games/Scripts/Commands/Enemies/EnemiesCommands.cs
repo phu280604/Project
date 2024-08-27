@@ -8,11 +8,20 @@ public class EnemiesCommands : MonoBehaviour
 
     public List<GameObject> Enemies { get { return enemies; }  set { enemies = value; } }
 
+    private void FixedUpdate()
+    {
+        if (enemies.Count <= 0)
+        {
+            commands.StartTime = false;
+        }
+    }
+
     #endregion
 
     #region --- Field ---
 
     [SerializeField] private static List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private GameManagerCommands commands;
 
     #endregion
 }

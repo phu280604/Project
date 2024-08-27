@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 7591628891056875207}
   m_Layer: 7
   m_Name: Collider
-  m_TagString: Untagged
+  m_TagString: Turrets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,13 +183,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8519370967504975123}
-  - component: {fileID: 3794039595478489347}
   - component: {fileID: 5588655498229549082}
   - component: {fileID: 3547395655650313528}
   - component: {fileID: 5193151515273029135}
-  m_Layer: 0
+  - component: {fileID: 2078173228768076232}
+  m_Layer: 7
   m_Name: Bullets
-  m_TagString: Untagged
+  m_TagString: Turrets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,19 +211,6 @@ Transform:
   - {fileID: 2164318900492070615}
   m_Father: {fileID: 8356690043839094461}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3794039595478489347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2261513856229002467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d4357b90b6f944591fd07880a80160, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stats: {fileID: 2807562155805376633}
 --- !u!114 &5588655498229549082
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,11 +223,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0729caa06982d8459267e4984797578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
   bulletPrefab: {fileID: 2261513856229002467}
   statsTurrets: {fileID: 2807562155805376633}
-  selfDestroy: {fileID: 3547395655650313528}
-  tarPos: {x: 0, y: 0}
-  speedBullet: 0
+  speedBullet: 5
+  distance: 0
 --- !u!114 &3547395655650313528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887dc3686fdc52e4c96a04ee23b17d4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats: {fileID: 2807562155805376633}
 --- !u!50 &5193151515273029135
 Rigidbody2D:
   serializedVersion: 4
@@ -280,6 +268,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &2078173228768076232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261513856229002467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e90a9fa6232f4df4d948f87452fb920e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shoot: {fileID: 5588655498229549082}
+  stats: {fileID: 2807562155805376633}
 --- !u!1 &4375226263697814790
 GameObject:
   m_ObjectHideFlags: 0
@@ -293,13 +295,15 @@ GameObject:
   - component: {fileID: 4766597104748254016}
   - component: {fileID: 2807562155805376633}
   - component: {fileID: 2710261148491671815}
+  - component: {fileID: 7830691413879297792}
+  - component: {fileID: 8084706258151249975}
   m_Layer: 7
   m_Name: Sniper
   m_TagString: Turrets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8356690043839094461
 Transform:
   m_ObjectHideFlags: 0
@@ -310,7 +314,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8841601901357574765}
@@ -369,11 +373,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0ac204c9976b6547a358f12d5bae4d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lvl: 0
   cost: 0
   hp: 0
   def: 0
   atk: 0
-  atkSpeed: 0
+  atkDelay: 0
   atkRange: 0
   speed: 0
   debuffEff: 0
@@ -394,12 +399,42 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 128
+  status: {fileID: 7830691413879297792}
   shoot: {fileID: 5588655498229549082}
   rotationH: {fileID: 4766597104748254016}
   statsH: {fileID: 2807562155805376633}
   eCommands: {fileID: 0}
   enemy: {fileID: 0}
-  fireDelay: 0.1
+  fireDelay: 0
+--- !u!114 &7830691413879297792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4375226263697814790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88684c66affc914c9b638d7920b4155, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPlacing: 0
+--- !u!114 &8084706258151249975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4375226263697814790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c15e96675834d5e469d82389ff9a0ca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: {fileID: 7830691413879297792}
+  tileMap: {fileID: 0}
+  mapD: {fileID: 0}
+  tilePosition: {x: 0, y: 0, z: 0}
 --- !u!1 &5187457608954856176
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 584087890529125334}
   - component: {fileID: 3109518726712876056}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +613,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2164318900492070615}
   - component: {fileID: 4803817335916038851}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -646,7 +681,7 @@ GameObject:
   - component: {fileID: 8841601901357574765}
   m_Layer: 7
   m_Name: Sprite
-  m_TagString: Untagged
+  m_TagString: Turrets
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

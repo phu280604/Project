@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class DefaultStats : MonoBehaviour
 {
+    [SerializeField] protected int lvl;
+
     [SerializeField] protected int cost;
     [SerializeField] protected float hp;
     [SerializeField] protected float def;
@@ -16,6 +18,7 @@ public class DefaultStats : MonoBehaviour
     [SerializeField] protected float debuffRes;
     [SerializeField] protected int costDrop;
 
+    public int Lvl { get { return lvl; } set { lvl = value; } }
     public int Cost { get { return cost; } set { cost = value; } }
     public float Hp { get { return hp; } set { hp = value; } }
     public float Def { get { return def; } set { def = value; } }

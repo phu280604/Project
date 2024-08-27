@@ -12,8 +12,33 @@ public class RoadGenerate : MonoBehaviour
     void Start()
     {
         GenarateRoad();
+        SetSizePos();
+
         Invoke("StartSpawn", 2f);
     }
+
+    private void SetSizePos()
+    {
+        mapD.StartPoint = FindCentalPos((int)mapD.StartPoint.x, (int)mapD.StartPoint.y);
+        mapD.EndPoint = FindCentalPos((int)mapD.EndPoint.x, (int)mapD.EndPoint.y);
+        for (int i = 0; i < mapD.RoadPoint.Count; i++)
+        {
+            mapD.RoadPoint[i] = FindCentalPos((int)mapD.RoadPoint[i].x, (int)mapD.RoadPoint[i].y);
+        }
+    }
+
+    #region -- Finding central position --
+    private Vector3 FindCentalPos(int x, int y)
+    {
+        Vector3 cellPos = tileMap.CellToWorld(new Vector3Int(x, y));
+        Vector3 cellSize = tileMap.cellSize;
+        Vector3 result = cellPos + (cellSize / 2);
+
+        result.z = -1;
+
+        return result;
+    }
+    #endregion
 
     #region -- Genarate road --
     private void GenarateRoad()
@@ -25,8 +50,8 @@ public class RoadGenerate : MonoBehaviour
 
         int y = Random.Range(2, 6);
         for (int i = curPos.y - 1; i > curPos.y - y; i--)
-        { 
-            tilemap.SetTile(new Vector3Int(curPos.x, i, 0), spriteData.Road[Random.Range(0, roadCount)]); 
+        {
+            tileMap.SetTile(new Vector3Int(curPos.x, i, 0), spriteData.Road[Random.Range(0, roadCount)]); 
         }
         curPos.y -= y;
 
@@ -35,7 +60,7 @@ public class RoadGenerate : MonoBehaviour
             for (int i = curPos.x; i < endPos.x; i++)
             {
                 Vector3Int pos = new Vector3Int(i, curPos.y, 0);
-                tilemap.SetTile(pos, spriteData.Road[Random.Range(0, roadCount)]);
+                tileMap.SetTile(pos, spriteData.Road[Random.Range(0, roadCount)]);
                 
                 if (i == curPos.x) mapD.RoadPoint.Add(pos);
             }
@@ -45,7 +70,7 @@ public class RoadGenerate : MonoBehaviour
             for (int i = curPos.x; i > endPos.x; i--)
             {
                 Vector3Int pos = new Vector3Int(i, curPos.y, 0);
-                tilemap.SetTile(pos, spriteData.Road[Random.Range(0, roadCount)]);
+                tileMap.SetTile(pos, spriteData.Road[Random.Range(0, roadCount)]);
 
                 if (i == curPos.x) mapD.RoadPoint.Add(pos);
             }
@@ -55,7 +80,7 @@ public class RoadGenerate : MonoBehaviour
         for (int i = curPos.y; i > endPos.y; i--)
         {
             Vector3Int pos = new Vector3Int(curPos.x, i, 0);
-            tilemap.SetTile(pos, spriteData.Road[Random.Range(0, roadCount)]);
+            tileMap.SetTile(pos, spriteData.Road[Random.Range(0, roadCount)]);
 
             if (i == curPos.y) mapD.RoadPoint.Add(pos);
         }
@@ -79,7 +104,7 @@ public class RoadGenerate : MonoBehaviour
     [SerializeField] private MapDatas mapD;
     [SerializeField] private MapSpriteData spriteData;
 
-    [SerializeField] private Tilemap tilemap;
+    [SerializeField] private Tilemap tileMap;
     [SerializeField] private GameObject enemies;
 
     #endregion

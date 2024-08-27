@@ -25,32 +25,32 @@ public class SniperH : MonoBehaviour
         StatsSetUp();
     }
 
-    #region -- Checking and Shoot --
+    #region -- Checking enemy in range --
     private void EnemiesChecker()
     {
-        float distance = 0;
-        if (enemy == null)
+        foreach (GameObject enemy in eCommands.Enemies)
         {
-            foreach (GameObject enemies in eCommands.Enemies)
+            float distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
+            if (distance <= statsH.AtkRange && enemy.active)
             {
-                distance = ((Vector2)(transform.position - enemies.transform.position)).magnitude;
-                if (distance <= statsH.AtkRange)
-                {
-                    enemy = enemies;
-                    break;
-                }
+                this.enemy = enemy;
+                break;
             }
         }
-        else
+    }
+    #endregion
+
+    #region -- Shoot --
+    private void Shoot()
+    {
+        float distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
+        if (distance <= statsH.AtkRange && fireDelay == 0)
+            shoot.Shoot(transform.position, enemy);
+
+        if (distance > statsH.AtkRange)
         {
-            distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
-            if (distance <= statsH.AtkRange && fireDelay == 0)
-            {
-                shoot.Shoot(transform.position, enemy.transform.position);
-                DelayTimer();
-            }
-            else if (distance > statsH.AtkRange)
-                enemy = null;
+            enemy = null;
+            shoot.Shoot(transform.position, enemy);
         }
     }
     #endregion
@@ -74,8 +74,20 @@ public class SniperH : MonoBehaviour
 
     private void Update()
     {
-        EnemiesChecker();
-        if (enemy != null) RotationTurrets();
+        if (status.IsPlacing)
+        {
+            if (enemy != null)
+            {
+                RotationTurrets();
+                Shoot();
+                DelayTimer();
+            }
+            else
+            {
+                EnemiesChecker();
+                fireDelay = 0;
+            }
+        }
     }
 
     #endregion
@@ -86,6 +98,7 @@ public class SniperH : MonoBehaviour
     [SerializeField] LayerMask layer;
 
     [Header("Turrets component")]
+    [SerializeField] private StatusH status;
     [SerializeField] private ShootH shoot;
     [SerializeField] private RotationTurretsH rotationH;
     [SerializeField] private StatsTurrets statsH;
