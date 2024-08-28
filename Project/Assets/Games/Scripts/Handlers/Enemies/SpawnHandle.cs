@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.UIElements;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ public class SpawnHandle : MonoBehaviour
             {
                 GameObject enemiesDup = Instantiate(item.Key);
                 enemiesDup.name = enemiesDup.name + " #" + (i + 1);
-                commands.Enemies.Add(enemiesDup);
+                commands.Enemies[enemiesDup] = true;
             }
         }
     }
@@ -38,7 +39,7 @@ public class SpawnHandle : MonoBehaviour
         quanlity = new Dictionary<GameObject, int>();
         maxEnemies = 0;
         curEnemies = 0;
-        delaySpawn = 5f;
+        delaySpawn = 2f;
         spawn = 0;
 
         SpawnMiniVan();
@@ -48,38 +49,15 @@ public class SpawnHandle : MonoBehaviour
             maxEnemies += item.Value;
         }
 
-        DuplicateEnemy();
+        spawned = false;
     }
 
     #region -- Spawn --
     private void Spawn()
     {
-        int nums = Random.Range(2, 4);
-
-        if (curEnemies + nums < maxEnemies && curEnemies < maxEnemies)
-        {
-            while (nums > 0)
-            {
-                int category = Random.Range(0, commands.Enemies.Count);
-                if (!commands.Enemies[category].activeSelf)
-                {
-                    commands.Enemies[category].SetActive(true);
-                    nums--;
-                    curEnemies++;
-                }
-            }
-        }
-        else if (curEnemies + nums > maxEnemies && curEnemies < maxEnemies)
-        {
-            foreach(var item in commands.Enemies)
-            {
-                if (!item.activeSelf)
-                {
-                    item.SetActive(true);
-                    curEnemies++;
-                }
-            }
-        }
+        List<KeyValuePair<GameObject, bool>> enemiesList = commands.Enemies.ToList();
+        enemiesList[curEnemies].Key.SetActive(true);
+        curEnemies ++;
 
         spawn += Time.deltaTime;
     }
@@ -98,12 +76,28 @@ public class SpawnHandle : MonoBehaviour
     {
         if (managerCommands.StartTime)
         {
-            if (spawn == 0 && curEnemies <= maxEnemies)
+            if (!spawned)
+            {
+                DuplicateEnemy();
+
+                
+                List<KeyValuePair<GameObject, bool>> enemiesList = commands.Enemies.ToList();
+
+                // Xáo trộn danh sách
+                System.Random rnd = new System.Random();
+                enemiesList = enemiesList.OrderBy(item => rnd.Next()).ToList();
+
+
+                spawned = true;
+            }
+
+            if (spawn == 0 && curEnemies < maxEnemies)
                 Spawn();
-            else if (spawn != 0 && curEnemies <= maxEnemies)
+            else if (spawn != 0 && curEnemies < maxEnemies)
                 DelaySpawn();
         }
     }
+
     #endregion
 
     #region --- Field ---
@@ -113,9 +107,11 @@ public class SpawnHandle : MonoBehaviour
     [SerializeField] private int maxEnemies;
     [SerializeField] private List<GameObject> minion;
     [SerializeField] private Dictionary<GameObject, int> quanlity;
+
     private int curEnemies;
     private float delaySpawn;
     private float spawn;
+    private bool spawned;
 
     #endregion
 }

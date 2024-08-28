@@ -189,6 +189,8 @@ GameObject:
   - component: {fileID: 826942182174316189}
   - component: {fileID: 2213663249769826512}
   - component: {fileID: 1574751152326415795}
+  - component: {fileID: 7718971607559910036}
+  - component: {fileID: 1085367570884430341}
   m_Layer: 8
   m_Name: BrowMouse
   m_TagString: Enemies
@@ -249,6 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   commands: {fileID: 0}
+  status: {fileID: 7718971607559910036}
   tileMap: {fileID: 0}
   stats: {fileID: 826942182174316189}
   mapD: {fileID: 0}
@@ -284,3 +287,30 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
+--- !u!114 &7718971607559910036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7415491362011564962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b0302d8a26adb4f982d0f96013fcad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAttacking: 0
+  isMoving: 0
+  isDying: 0
+--- !u!114 &1085367570884430341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7415491362011564962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f165744f3eccdc488397cd4cabc6af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

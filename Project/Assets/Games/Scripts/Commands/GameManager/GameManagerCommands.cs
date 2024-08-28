@@ -13,7 +13,7 @@ public class GameManagerCommands : MonoBehaviour
         pause = false;
 
         wave = 1;
-        hp = 500;
+        hp = 1000;
         speed = 2;
     }
 
@@ -26,8 +26,11 @@ public class GameManagerCommands : MonoBehaviour
     }
 
 
-    #region -- Get - Set Mrthod --
+    #region -- Get - Set Method --
     public bool StartTime { get { return start; } set { start = value; } }
+    public float HP { get { return hp; } set { hp = value; } }
+    public int Wave { get { return wave; } set { wave = value; } }
+    public bool PauseTime { get { return pause; } set { pause = value; } }
     #endregion
 
     #endregion

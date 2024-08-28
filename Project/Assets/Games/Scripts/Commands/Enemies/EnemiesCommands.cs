@@ -6,21 +6,31 @@ public class EnemiesCommands : MonoBehaviour
 {
     #region --- Method ---
 
-    public List<GameObject> Enemies { get { return enemies; }  set { enemies = value; } }
+    private void Start()
+    {
+        enemies = new Dictionary<GameObject, bool>();
+        enemiesCount = 1;
+    }
 
     private void FixedUpdate()
     {
-        if (enemies.Count <= 0)
+        if (enemiesCount == enemies.Count)
         {
+            enemies.Clear();
             commands.StartTime = false;
+            commands.Wave += 1;
         }
     }
+
+    public Dictionary<GameObject, bool> Enemies { get { return enemies; } set { enemies = value; } }
+    public int EnemiesCount { get { return enemiesCount; } set { enemiesCount = value; } }
 
     #endregion
 
     #region --- Field ---
 
-    [SerializeField] private static List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private static Dictionary<GameObject, bool> enemies;
+    [SerializeField] private static int enemiesCount;
     [SerializeField] private GameManagerCommands commands;
 
     #endregion

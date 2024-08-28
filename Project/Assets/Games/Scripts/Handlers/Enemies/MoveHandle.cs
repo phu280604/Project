@@ -91,8 +91,11 @@ public class MoveHandle : MonoBehaviour
 
         FlipEnemy(normalize.x);
 
-        if (magnitude < 0.25)
+        if (magnitude <= 0.25)
+        {
             roadPointC++;
+            FlipEnemy(normalize.x);
+        }
 
         transform.Translate(normalize * Time.fixedDeltaTime * stats.Speed);
 
@@ -103,26 +106,40 @@ public class MoveHandle : MonoBehaviour
     #region -- Flip enemies --
     private void FlipEnemy(float x)
     {
-        if (x < 0) transform.localScale = new Vector3(1, 1, 1);
-        else transform.localScale = new Vector3(-1, 1, 1);
+        int i = 1;
+        if (x > 0) i = -1;
+
+        Vector3 scale = new Vector3(1 * i, 1, 1);
+        Sprite.transform.localScale = scale;
     }
     #endregion
 
     private void Update()
     {
-        if (roadPointC < mapD.RoadPoint.Count) MoveHanle();
+        if (roadPointC < mapD.RoadPoint.Count && status.IsMoving)
+        {
+            MoveHanle();
+            aniCommands.ChangeAnimation("Running");
+        }
     }
 
     #endregion
 
     #region --- Field ---
 
+    [Header("Component")]
     [SerializeField] private EnemiesCommands commands;
-    [SerializeField] private Tilemap tileMap;
+    [SerializeField] private AnimationCommand aniCommands;
+    [SerializeField] private EStatus status;
     [SerializeField] private StatsEnemies stats;
     [SerializeField] private MapDatas mapD;
+    [SerializeField] private Tilemap tileMap;
+    [SerializeField] private GameObject Sprite;
+
+    [Header("Layer")]
     [SerializeField] private LayerMask layer;
 
+    [Header("Value")]
     [SerializeField] private Vector3 curPos;
     [SerializeField] private Vector3 tarPos;
 

@@ -7,6 +7,9 @@ TagManager:
   - RoadTile
   - Turrets
   - Enemies
+  - TurretClone
+  - OptionTurret
+  - EndPoint
   layers:
   - Default
   - TransparentFX
@@ -15,20 +18,20 @@ TagManager:
   - Water
   - UI
   - RoadTile
-  - SniperTur
+  - Body
   - MiniVan
   - MiniGuard
   - MiniSniper
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Option
+  - RemoveSnip
+  - PlaceSnip
+  - BodySnip
+  - BodyDef
+  - BodyCas
+  - RemoveDef
+  - PlaceDef
+  - RemoveCas
+  - PlaceCas
   - 
   - 
   - 

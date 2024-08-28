@@ -6,10 +6,14 @@ public class TurretsCommands : MonoBehaviour
 {
     void Start()
     {
-        turrets = new GameObject[7];
+        turretsArePlacing = new GameObject[5];
     }
 
-    public GameObject[] Turrets { get { return turrets; } set{ turrets = value; } }
+    public GameObject[] TurretsArePlacing { get { return turretsArePlacing; } set{ turretsArePlacing = value; } }
+    public GameObject[] TurretsAreEditing { get { return turretsAreEditing; } set { turretsAreEditing = value; } }
+    public GameObject NewTurretsArePlacing { get { return newTurretsArePlacing; } set { newTurretsArePlacing = value; } }
 
-    [SerializeField] private GameObject[] turrets;
+    [SerializeField] private GameObject[] turretsArePlacing;
+    [SerializeField] private GameObject[] turretsAreEditing;
+    [SerializeField] private GameObject newTurretsArePlacing;
 }

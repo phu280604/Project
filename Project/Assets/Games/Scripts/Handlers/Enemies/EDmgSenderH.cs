@@ -1,18 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class DmgSenderH : MonoBehaviour
+public class EDmgSenderH : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    #region --- Method ---
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         
+        if (collision != null && (collision.tag == "Turrets" || collision.tag == "EndPoint"))
+        {
+            block = collision.gameObject;
+            status.IsAttacking = true;
+            status.IsMoving = false;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        
+        if (collision != null && collision.tag == "EndPoint")
+        {
+            block = null;
+            status.IsAttacking = false;
+            status.IsMoving = false;
+        }
+        else if (collision != null && (collision.tag == "Turrets" || collision.tag == "EndPoint"))
+        {
+            block = null;
+            status.IsAttacking = false;
+            status.IsMoving = true;
+        }
     }
+
+    public GameObject Block { get { return block; } set { block = value; } }
+
+    #endregion
+
+    #region --- Field ---
+
+    [SerializeField] private EStatus status;
+    [SerializeField] private StatsEnemies stats;
+    [SerializeField] private GameObject block;
+
+    #endregion
 }
