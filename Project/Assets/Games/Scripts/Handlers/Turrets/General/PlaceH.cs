@@ -123,6 +123,7 @@ public class PlaceH : MonoBehaviour
     }
     #endregion
 
+    #region -- Remove highlight
     public void RemoveHighLight(Vector3Int tilePos)
     {
         if ((tilePosition - tilePos).magnitude >= 1)
@@ -132,6 +133,7 @@ public class PlaceH : MonoBehaviour
             tileMap.SetColor(tilePosition, Color.white);
         }
     }
+    #endregion
 
     #region -- Start build --
     public void StartBuilding()
@@ -146,8 +148,6 @@ public class PlaceH : MonoBehaviour
                     Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
 
                     // Moving object.
-
-                    #region - Error -
                     RaycastHit2D hitMove = Physics2D.Raycast(touchPosition, Vector2.up, 0.1f, layerMove);
                     if (hitMove.collider != null)
                     {
@@ -161,28 +161,39 @@ public class PlaceH : MonoBehaviour
 
                         isDragging = true;
                     }
-                    #endregion
 
 
                     // Removing object
                     RaycastHit2D hitRemove = Physics2D.Raycast(touchPosition, Vector2.zero, 0.1f, layerRemove);
                     if (hitRemove.collider != null)
                     {
+                        StatsTurrets stats = gameObject.GetComponent<StatsTurrets>();
+                        gameCommands.Cost += stats.Cost;
                         tileMap.SetTileFlags(tilePosition, TileFlags.None);
                         tileMap.SetColor(tilePosition, Color.white);
-                        Destroy(gameObject);
+
+                        int index = commands.TurretsDeloyed.IndexOf(gameObject);
+                        commands.TurretsDeloyed[index].SetActive(false);
                     }
 
                     // Placing object
                     RaycastHit2D hitPlace = Physics2D.Raycast(touchPosition, Vector2.zero, 0.1f, layerPlace);
                     if (hitPlace.collider != null)
                     {
-                        tileMap.SetTileFlags(tilePosition, TileFlags.None);
-                        tileMap.SetColor(tilePosition, Color.white);
-                        status.IsPlacing = true;
+                        if ((Vector2)gameObject.transform.position != (Vector2)mapD.StartPoint && (Vector2)mapD.EndPoint != (Vector2)gameObject.transform.position)
+                        {
+                            tileMap.SetTileFlags(tilePosition, TileFlags.None);
+                            tileMap.SetColor(tilePosition, Color.white);
 
-                        objOption.SetActive(false);
-                        commands.TurretsArePlacing.Append(gameObject);
+                            status.IsPlacing = true;
+
+                            objOption.SetActive(false);
+                        }
+                        else
+                        {
+                            tileMap.SetTileFlags(tilePosition, TileFlags.None);
+                            tileMap.SetColor(tilePosition, Color.red);
+                        }
                     }
 
                     break;
@@ -219,13 +230,17 @@ public class PlaceH : MonoBehaviour
 
     private void Update()
     {
-        StartBuilding();
+        if (gameCommands.BuildingTime)
+        {
+            StartBuilding();
+        }
     }
 
     #endregion
 
     #region --- Field ---
 
+    [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private TurretsCommands commands;
     [SerializeField] private StatusH status;
     [SerializeField] private Tilemap tileMap;

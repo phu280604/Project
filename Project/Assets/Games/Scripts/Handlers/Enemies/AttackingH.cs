@@ -28,24 +28,29 @@ public class AttackingH : MonoBehaviour
         }
         else if (target != null && target.tag == "EndPoint")
         {
-            Debug.Log(gameCommands.HP);
-            gameCommands.HP -= stats.Atk;
+            int dmgDeal = (int)(stats.Atk * 30 / 100);
+            dmgDeal = dmgDeal - (dmgDeal % 5);
+
+            gameCommands.HP -= dmgDeal;
         }
     }
 
     private void Update()
     {
-        if (status.IsAttacking)
+        if (!gameCommands.PauseTime)
         {
-            if (delay == 0)
+            if (status.IsAttacking)
             {
-                aniCommands.ChangeAnimation("Attacking");
-                DealDmg();
+                if (delay == 0)
+                {
+                    aniCommands.ChangeAnimation("Attacking");
+                    DealDmg();
+                }
+                DelayAttacking();
             }
-            DelayAttacking();
+            else
+                delay = 0;
         }
-        else
-            delay = 0;
     }
 
     #endregion

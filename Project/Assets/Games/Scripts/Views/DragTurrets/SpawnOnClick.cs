@@ -9,15 +9,25 @@ public class SpawnOnClick : MonoBehaviour
     #region --- Method ---
     void Start()
     {
-        index = 1;
         spawnBtn.onClick.AddListener(SpawnObject);
     }
 
     private void SpawnObject()
     {
-        if (towerPrefab == null)
+        StatsTurrets stats = tower.GetComponent<StatsTurrets>();
+        if (towerPrefab == null && gameCommands.Cost - stats.Cost >= 0)
         {
             towerPrefab = Instantiate(tower);
+            gameCommands.Cost -= stats.Cost;
+            towerPrefab.name = tower.name;
+
+            turretsCommands.TurretsDeloyed.Add(towerPrefab);
+        }
+        else if (towerPrefab != null && gameCommands.Cost - stats.Cost >= 0)
+        {
+            gameCommands.Cost -= stats.Cost;
+            towerPrefab.SetActive(true);
+            place.FirstHighLightPlaceTouch(place.GetTouchPosition(Input.GetTouch(0)), towerPrefab);
         }
     }
 
@@ -34,17 +44,27 @@ public class SpawnOnClick : MonoBehaviour
         }
     }
 
+    public GameObject Turret { get { return tower; } set { tower = value; } }
+    public GameObject TurretPrefab { get { return towerPrefab; } set { towerPrefab = value; } }
+
     #endregion
 
     #region --- Field ---
 
+    [Header("Game Manager")]
+    [SerializeField] private GameManagerCommands gameCommands;
+
+    [Header("Turret Components")]
     [SerializeField] private StatusH status;
     [SerializeField] private PlaceH place;
+    [SerializeField] private TurretsCommands turretsCommands;
+
+    [Header("Turret Gameobjects")]
     [SerializeField] private GameObject tower;
     [SerializeField] private GameObject towerPrefab;
-    [SerializeField] private Button spawnBtn;
 
-    private int index;
+    [Header("UI component")]
+    [SerializeField] private Button spawnBtn;
 
     #endregion
 }

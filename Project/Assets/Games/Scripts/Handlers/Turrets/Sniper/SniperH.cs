@@ -15,7 +15,7 @@ public class SniperH : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    private void Awake()
     {
         StatsSetUp();
     }
@@ -25,11 +25,14 @@ public class SniperH : MonoBehaviour
     {
         foreach (KeyValuePair<GameObject, bool> enemy in eCommands.Enemies)
         {
-            float distance = ((Vector2)(transform.position - enemy.Key.transform.position)).magnitude;
-            if (distance <= statsH.AtkRange && enemy.Value)
+            if (enemy.Value)
             {
-                this.enemy = enemy.Key;
-                break;
+                float distance = ((Vector2)(transform.position - enemy.Key.transform.position)).magnitude;
+                if (distance <= statsH.AtkRange)
+                {
+                    this.enemy = enemy.Key;
+                    break;
+                }
             }
         }
     }
@@ -69,18 +72,21 @@ public class SniperH : MonoBehaviour
 
     private void Update()
     {
-        if (status.IsPlacing)
+        if (!gameCommands.PauseTime)
         {
-            if (enemy != null)
+            if (status.IsPlacing)
             {
-                RotationTurrets();
-                Shoot();
-                DelayTimer();
-            }
-            else
-            {
-                EnemiesChecker();
-                fireDelay = 0;
+                if (enemy != null)
+                {
+                    RotationTurrets();
+                    Shoot();
+                    DelayTimer();
+                }
+                else
+                {
+                    EnemiesChecker();
+                    fireDelay = 0;
+                }
             }
         }
     }
@@ -90,6 +96,7 @@ public class SniperH : MonoBehaviour
     #region --- Field ---
 
     [Header("Turrets component")]
+    [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private StatusH status;
     [SerializeField] private ShootH shoot;
     [SerializeField] private RotationTurretsH rotationH;

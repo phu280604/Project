@@ -8,6 +8,8 @@ public class DefaultStats : MonoBehaviour
     [SerializeField] protected int lvl;
 
     [SerializeField] protected int cost;
+    [SerializeField] protected int costUpgrade;
+    [SerializeField] protected float maxHP;
     [SerializeField] protected float hp;
     [SerializeField] protected float def;
     [SerializeField] protected float atk;
@@ -20,6 +22,8 @@ public class DefaultStats : MonoBehaviour
 
     public int Lvl { get { return lvl; } set { lvl = value; } }
     public int Cost { get { return cost; } set { cost = value; } }
+    public int CostUpgrade { get { return costUpgrade; } set { costUpgrade = value; } }
+    public float MaxHP { get { return maxHP; } set { maxHP = value; } }
     public float Hp { get { return hp; } set { hp = value; } }
     public float Def { get { return def; } set { def = value; } }
     public float Atk { get { return atk; } set { atk = value; } }

@@ -9,19 +9,24 @@ public class EDmgReceiverH : MonoBehaviour
     #region -- Enemies dmg receive --
     public void EDmgRecerver(float dmg)
     {
-        float dmgDeal = (dmg - stats.Def);
-        if (dmgDeal <= 0)
-            stats.Hp -= 1;
-        else if (dmgDeal > 0)
-            stats.Hp -= dmgDeal;
-        
-        aniCommands.ChangeAnimation("Hitting");
-        status.IsMoving = false;
+        if (!status.IsDying)
+        {
+            float dmgDeal = (dmg - stats.Def);
+            if (dmgDeal <= 0)
+                stats.Hp -= 1;
+            else if (dmgDeal > 0)
+                stats.Hp -= dmgDeal;
 
-        if (!status.IsAttacking)
-            Invoke("ResetMovingAnimation", 0.5f);
-        else
-            Invoke("ResetAttackingAnimation", 0.5f);
+            aniCommands.ChangeAnimation("Hitting");
+            bool lastStatus = status.IsMoving;
+            status.IsMoving = false;
+            status.IsAttacking = false;
+
+            if (lastStatus)
+                Invoke("ResetMovingAnimation", 0.7f);
+            else
+                Invoke("ResetAttackingAnimation", 0.7f);
+        }
     }
     #endregion
 
@@ -35,39 +40,48 @@ public class EDmgReceiverH : MonoBehaviour
     private void ResetAttackingAnimation()
     {
         aniCommands.ChangeAnimation("Attacking");
+        status.IsAttacking = true;
     }
     #endregion
 
     #region -- Dead --
     private void Dead()
     {
-        commands.Enemies[objParent] = false;
-        commands.EnemiesCount += 1;
+
+        if (commands.Enemies.ContainsKey(objParent))
+        {
+            commands.Enemies[objParent] = false;
+        }
 
         aniCommands.ChangeAnimation("Dying");
-        
+
         status.IsMoving = false;
         status.IsAttacking = false;
         status.IsDying = true;
-        
-        Invoke("Destroy", 2f);
+
+        Invoke("Destroy", 0.6f);
     }
 
     private void Destroy()
     {
+        commands.EnemiesCount += 1;
+        gameCommands.Cost += stats.CostDrop;
         objParent.SetActive(false);
+        Destroy(objParent);
     }
     #endregion
 
     private void Update()
     {
-        if (stats.Hp <= 0) Dead();
+        if (!gameCommands.PauseTime && !status.IsDying)
+            if (stats.Hp <= 0) Dead();
     }
 
     #endregion
 
     #region --- Field ---
 
+    [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private EStatus status;
     [SerializeField] private StatsEnemies stats;
     [SerializeField] private EnemiesCommands commands;

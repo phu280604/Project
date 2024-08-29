@@ -627,7 +627,6 @@ GameObject:
   - component: {fileID: 3349511162339644902}
   - component: {fileID: 1319626428692411887}
   - component: {fileID: 2474159203134190234}
-  - component: {fileID: 3903957833786154544}
   - component: {fileID: 8553344375934713716}
   m_Layer: 0
   m_Name: Bullets
@@ -665,10 +664,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0729caa06982d8459267e4984797578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 5513505277774467310}
   statsTurrets: {fileID: 3179492926004563884}
-  rotation: {fileID: 3903957833786154544}
+  rotation: {fileID: 0}
   speedBullet: 5
   distance: 0
 --- !u!114 &1319626428692411887
@@ -697,18 +697,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 3179492926004563884}
---- !u!114 &3903957833786154544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5513505277774467310}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40ae176ba803cd45a9df30a182c56d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &8553344375934713716
 Rigidbody2D:
   serializedVersion: 4
@@ -809,7 +797,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8c0060c1c95c28a4ba7d14d9a06101fa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 47878ef304cddee459a70628fc243e25, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -919,6 +907,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lvl: 0
   cost: 0
+  costUpgrade: 0
+  maxHP: 0
   hp: 0
   def: 0
   atk: 0
@@ -955,6 +945,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15e96675834d5e469d82389ff9a0ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   commands: {fileID: 0}
   status: {fileID: 6197769214105825472}
   tileMap: {fileID: 0}
@@ -983,6 +974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd7cd387e9c376547b2502aeafe61b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   status: {fileID: 6197769214105825472}
   shoot: {fileID: 3349511162339644902}
   rotationH: {fileID: 7749714297690647015}
@@ -1321,7 +1313,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6496873561123654106}
-  - component: {fileID: 4747897916022333498}
+  - component: {fileID: 7152785925068585567}
   m_Layer: 0
   m_Name: Collider
   m_TagString: Untagged
@@ -1344,8 +1336,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2232310920641855364}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &4747897916022333498
-CapsuleCollider2D:
+--- !u!58 &7152785925068585567
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -1376,6 +1368,6 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.000000010956736, y: 0.006000215}
-  m_Size: {x: 0.29999217, y: 0.49198014}
-  m_Direction: 0
+  m_Offset: {x: -0.0019455875, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.14785185

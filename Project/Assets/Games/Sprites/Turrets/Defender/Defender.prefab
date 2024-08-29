@@ -599,6 +599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lvl: 0
   cost: 0
+  costUpgrade: 0
+  maxHP: 0
   hp: 0
   def: 0
   atk: 0
@@ -635,6 +637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15e96675834d5e469d82389ff9a0ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   commands: {fileID: 0}
   status: {fileID: 1916541304639847749}
   tileMap: {fileID: 0}

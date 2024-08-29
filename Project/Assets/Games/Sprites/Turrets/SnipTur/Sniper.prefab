@@ -357,7 +357,6 @@ GameObject:
   - component: {fileID: 5588655498229549082}
   - component: {fileID: 3547395655650313528}
   - component: {fileID: 2078173228768076232}
-  - component: {fileID: 6551639807560271140}
   m_Layer: 0
   m_Name: Bullets
   m_TagString: Turrets
@@ -394,10 +393,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0729caa06982d8459267e4984797578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   enemy: {fileID: 0}
   bulletPrefab: {fileID: 2261513856229002467}
   statsTurrets: {fileID: 2807562155805376633}
-  rotation: {fileID: 6551639807560271140}
+  rotation: {fileID: 0}
   speedBullet: 5
   distance: 0
 --- !u!114 &3547395655650313528
@@ -425,20 +425,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e90a9fa6232f4df4d948f87452fb920e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   shoot: {fileID: 5588655498229549082}
   stats: {fileID: 2807562155805376633}
---- !u!114 &6551639807560271140
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2261513856229002467}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e40ae176ba803cd45a9df30a182c56d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2534314282061132245
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,6 +571,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lvl: 0
   cost: 0
+  costUpgrade: 0
+  maxHP: 0
   hp: 0
   def: 0
   atk: 0
@@ -603,6 +594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d89b362623efd947a74564012b7a3a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   status: {fileID: 7830691413879297792}
   shoot: {fileID: 5588655498229549082}
   rotationH: {fileID: 4766597104748254016}
@@ -637,6 +629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c15e96675834d5e469d82389ff9a0ca6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameCommands: {fileID: 0}
   commands: {fileID: 0}
   status: {fileID: 7830691413879297792}
   tileMap: {fileID: 0}

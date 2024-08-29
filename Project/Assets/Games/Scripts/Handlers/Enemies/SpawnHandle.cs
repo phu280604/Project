@@ -9,12 +9,42 @@ public class SpawnHandle : MonoBehaviour
     #region --- Method ---
 
     #region -- Spawn minion --
-    private void SpawnMiniVan()
+    private void SpawnMinion()
     {
         foreach (var item in minion)
         {
-            int nums = Random.Range(3, 6);
-            quanlity[item] = nums;
+            int nums = Random.Range(1 + gameCommands.Wave, 4 + gameCommands.Wave);
+            if (!quanlity.ContainsKey(item))
+            {
+                quanlity[item] = nums;
+                maxEnemies += nums;
+            }
+        }
+    }
+    #endregion
+
+    #region -- Spawn elite --
+    private void SpawnElite()
+    {
+        foreach (var item in elite)
+        {
+            int nums = Random.Range(2 + gameCommands.Wave, 4 + (gameCommands.Wave / 2));
+            if (!quanlity.ContainsKey(item))
+            {
+                quanlity[item] = nums;
+                maxEnemies += nums;
+            }
+        }
+    }
+    #endregion
+
+    #region -- Spawn boss --
+    private void SpawnBoss()
+    {
+        if (!quanlity.ContainsKey(boss))
+        {
+            quanlity[boss] = 1;
+            maxEnemies += 1;
         }
     }
     #endregion
@@ -34,24 +64,6 @@ public class SpawnHandle : MonoBehaviour
     }
     #endregion
 
-    private void Start()
-    {
-        quanlity = new Dictionary<GameObject, int>();
-        maxEnemies = 0;
-        curEnemies = 0;
-        delaySpawn = 2f;
-        spawn = 0;
-
-        SpawnMiniVan();
-
-        foreach (var item in quanlity)
-        {
-            maxEnemies += item.Value;
-        }
-
-        spawned = false;
-    }
-
     #region -- Spawn --
     private void Spawn()
     {
@@ -68,47 +80,110 @@ public class SpawnHandle : MonoBehaviour
     {
         if (spawn <= delaySpawn)
             spawn += Time.deltaTime;
-        else spawn = 0;
+        else
+        {
+            delaySpawn = Random.Range(1f, 4f);
+            spawn = 0;
+        }
     }
     #endregion
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (managerCommands.StartTime)
+        if (gameCommands.Wave < 6)
         {
-            if (!spawned)
+            if (!gameCommands.PauseTime)
             {
-                DuplicateEnemy();
+                if (!spawned)
+                {
+                    DuplicateEnemy();
 
-                
-                List<KeyValuePair<GameObject, bool>> enemiesList = commands.Enemies.ToList();
+                    List<KeyValuePair<GameObject, bool>> enemiesList = commands.Enemies.ToList();
 
-                // Xáo trộn danh sách
-                System.Random rnd = new System.Random();
-                enemiesList = enemiesList.OrderBy(item => rnd.Next()).ToList();
+                    System.Random rnd = new System.Random();
+                    enemiesList = enemiesList.OrderBy(item => rnd.Next()).ToList();
 
+                    spawned = true;
+                }
 
-                spawned = true;
+                if (spawn == 0 && curEnemies < maxEnemies)
+                    Spawn();
+                else if (spawn != 0 && curEnemies < maxEnemies)
+                {
+                    DelaySpawn();
+                    commands.NextWave = true;
+                }
             }
-
-            if (spawn == 0 && curEnemies < maxEnemies)
-                Spawn();
-            else if (spawn != 0 && curEnemies < maxEnemies)
-                DelaySpawn();
         }
     }
+
+    private void OnEnable()
+    {
+        quanlity = new Dictionary<GameObject, int>();
+        commands.Enemies = new Dictionary<GameObject, bool>();
+
+        commands.NextWave = false;
+        commands.EnemiesCount = 0;
+        maxEnemies = 0;
+        curEnemies = 0;
+        curDup = 0;
+        delaySpawn = 2f;
+        spawn = 0;
+        curWave = 0;
+
+        spawned = false;
+
+        SpawnByWave();
+    }
+
+    #region -- Spawn by wave --
+    private void SpawnByWave()
+    {
+        if (gameCommands.Wave == 5)
+        {
+            SpawnBoss();
+            return;
+        }
+
+        if (gameCommands.Wave <= 2)
+        {
+            SpawnMinion();
+            return;
+        }
+        else if (2 < gameCommands.Wave && gameCommands.Wave <= 4)
+        {
+            SpawnMinion();
+            SpawnElite();
+            return;
+        }
+    }
+    #endregion
+
+    public int MaxEnemies { get { return maxEnemies; } }
 
     #endregion
 
     #region --- Field ---
 
-    [SerializeField] private GameManagerCommands managerCommands;
+    [Header("Enemies component")]
+    [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private EnemiesCommands commands;
-    [SerializeField] private int maxEnemies;
     [SerializeField] private List<GameObject> minion;
-    [SerializeField] private Dictionary<GameObject, int> quanlity;
+    [SerializeField] private List<GameObject> elite;
+    [SerializeField] private GameObject boss;
+    private Dictionary<GameObject, int> quanlity;
 
-    private int curEnemies;
+    [Header("Wave")]
+    [SerializeField] private int curWave;
+
+    [Header("Duplicate enemies")]
+    [SerializeField] private int curDup;
+
+    [Header("Enemies")]
+    [SerializeField] private int maxEnemies;
+    [SerializeField] private int curEnemies;
+
+
     private float delaySpawn;
     private float spawn;
     private bool spawned;

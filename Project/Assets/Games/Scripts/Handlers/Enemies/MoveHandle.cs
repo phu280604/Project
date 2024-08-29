@@ -8,7 +8,6 @@ public class MoveHandle : MonoBehaviour
 {
     #region --- Method ---
 
-
     #region -- Set stats
     private void SetStats()
     {
@@ -24,6 +23,18 @@ public class MoveHandle : MonoBehaviour
 
             case int n when n == LayerMask.GetMask("MiniSniper"):
                 stats.MiniSniper();
+                break;
+
+            case int n when n == LayerMask.GetMask("EliGuard"):
+                stats.EliGuard();
+                break;
+
+            case int n when n == LayerMask.GetMask("EliSniper"):
+                stats.EliSniper();
+                break;
+
+            case int n when n == LayerMask.GetMask("BossGuard"):
+                stats.BossGuard();
                 break;
 
             default:
@@ -116,18 +127,22 @@ public class MoveHandle : MonoBehaviour
 
     private void Update()
     {
-        if (roadPointC < mapD.RoadPoint.Count && status.IsMoving)
+        if(!gameCommands.PauseTime)
         {
-            MoveHanle();
-            aniCommands.ChangeAnimation("Running");
+            if (roadPointC < mapD.RoadPoint.Count && status.IsMoving)
+            {
+                MoveHanle();
+                aniCommands.ChangeAnimation("Running");
+            }
         }
     }
 
     #endregion
 
     #region --- Field ---
-
+   
     [Header("Component")]
+    [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private EnemiesCommands commands;
     [SerializeField] private AnimationCommand aniCommands;
     [SerializeField] private EStatus status;

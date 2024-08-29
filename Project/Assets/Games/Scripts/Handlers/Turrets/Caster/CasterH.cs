@@ -15,7 +15,7 @@ public class CasterH : MonoBehaviour
     }
     #endregion
 
-    private void Start()
+    private void Awake()
     {
         StatsSetUp();
     }
@@ -25,11 +25,14 @@ public class CasterH : MonoBehaviour
     {
         foreach (KeyValuePair<GameObject, bool> enemy in eCommands.Enemies)
         {
-            float distance = ((Vector2)(transform.position - enemy.Key.transform.position)).magnitude;
-            if (distance <= statsH.AtkRange && enemy.Value)
+            if (enemy.Value)
             {
-                this.enemy = enemy.Key;
-                break;
+                float distance = ((Vector2)(transform.position - enemy.Key.transform.position)).magnitude;
+                if (distance <= statsH.AtkRange)
+                {
+                    this.enemy = enemy.Key;
+                    break;
+                }
             }
         }
     }
@@ -69,18 +72,21 @@ public class CasterH : MonoBehaviour
 
     private void Update()
     {
-        if (status.IsPlacing)
+        if (!gameCommands.PauseTime)
         {
-            if (enemy != null)
+            if (status.IsPlacing)
             {
-                RotationTurrets();
-                Shoot();
-                DelayTimer();
-            }
-            else
-            {
-                EnemiesChecker();
-                fireDelay = 0;
+                if (enemy != null)
+                {
+                    RotationTurrets();
+                    Shoot();
+                    DelayTimer();
+                }
+                else
+                {
+                    EnemiesChecker();
+                    fireDelay = 0;
+                }
             }
         }
     }
@@ -89,17 +95,20 @@ public class CasterH : MonoBehaviour
 
     #region --- Field ---
 
-    [Header("Turrets component")]
+    [Header("Game manager components")]
+    [SerializeField] private GameManagerCommands gameCommands;
+
+    [Header("Turrets components")]
     [SerializeField] private StatusH status;
     [SerializeField] private ShootH shoot;
     [SerializeField] private RotationTurretsH rotationH;
     [SerializeField] private StatsTurrets statsH;
 
-    [Header("Enemy component")]
+    [Header("Enemy components")]
     [SerializeField] private EnemiesCommands eCommands;
     [SerializeField] private GameObject enemy = null;
 
-    [Header("Value")]
+    [Header("Values")]
     [SerializeField] private float fireDelay;
 
     #endregion

@@ -6,7 +6,7 @@ public class DefenceH : MonoBehaviour
 {
     #region --- Method ---
 
-    void Start()
+    private void Awake()
     {
         stats.StatsDefender();
     }

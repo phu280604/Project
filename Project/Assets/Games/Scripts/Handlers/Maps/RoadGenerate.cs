@@ -93,7 +93,6 @@ public class RoadGenerate : MonoBehaviour
     private void StartSpawn()
     {
         enemies.SetActive(true);
-        Debug.Log("Spawn");
     }
     #endregion
 

@@ -4,16 +4,29 @@ using UnityEngine;
 
 public class TurretsCommands : MonoBehaviour
 {
+    #region --- Method ---
     void Start()
     {
-        turretsArePlacing = new GameObject[5];
+        foreach (var item in turrets)
+        {
+            if (item != null)
+            {
+                item.SetActive(true);
+                item.SetActive(false);
+            }
+        }
+        turretsDeloyed = new List<GameObject>();
     }
 
-    public GameObject[] TurretsArePlacing { get { return turretsArePlacing; } set{ turretsArePlacing = value; } }
-    public GameObject[] TurretsAreEditing { get { return turretsAreEditing; } set { turretsAreEditing = value; } }
-    public GameObject NewTurretsArePlacing { get { return newTurretsArePlacing; } set { newTurretsArePlacing = value; } }
+    public GameObject[] Turrets { get { return turrets; } set{ turrets = value; } }
+    public List<GameObject> TurretsDeloyed { get { return turretsDeloyed; } set { turretsDeloyed = value; } }
 
-    [SerializeField] private GameObject[] turretsArePlacing;
-    [SerializeField] private GameObject[] turretsAreEditing;
-    [SerializeField] private GameObject newTurretsArePlacing;
+    #endregion
+
+    #region --- Field ---
+
+    [SerializeField] private GameObject[] turrets;
+    private static List<GameObject> turretsDeloyed;
+
+    #endregion
 }

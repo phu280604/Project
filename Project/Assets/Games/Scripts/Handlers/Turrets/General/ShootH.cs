@@ -38,32 +38,44 @@ public class ShootH : MonoBehaviour
     #region -- Following enemy --
     private void Hit()
     {
-        if(enemy != null)
+        if (enemy != null)
         {
-            Vector2 dir = ((Vector2)enemy.transform.position - (Vector2)transform.position);
-            Vector2 dirNotmalize = dir.normalized;
-            distance = dir.magnitude;
+            if (GameObject.Find(enemy.name) != null)
+            {
+                Vector2 dir = ((Vector2)enemy.transform.position - (Vector2)transform.position);
+                Vector2 dirNotmalize = dir.normalized;
+                distance = dir.magnitude;
 
-            gameObject.transform.Translate(dirNotmalize * Time.deltaTime * speedBullet);
-
-            rotation.Rotation(Target);
+                gameObject.transform.Translate(dirNotmalize * Time.deltaTime * speedBullet);
+            }
+            else
+            {
+                enemy = null;
+                Destroy(gameObject);
+            }
         }
     }
     #endregion
 
+    #region -- Get/Set method --
     public float GetDistance { get { return distance; } }
 
     public GameObject Target { get { return enemy; } }
+    #endregion
 
     public void Update()
     {
-        Hit();
+        if (!gameCommands.PauseTime)
+        {
+            Hit();
+        }
     }
 
     #endregion
 
     #region --- Field ---
 
+    [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private GameObject enemy;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private StatsTurrets statsTurrets;

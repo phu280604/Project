@@ -6,6 +6,7 @@ public class TDmgReceiverH : MonoBehaviour
 {
     #region --- Method ---
 
+    #region -- Receive Dmg --
     public void Receive(float dmg)
     {
         float dmgDeal = (dmg - stats.Def);
@@ -17,10 +18,18 @@ public class TDmgReceiverH : MonoBehaviour
 
         if (stats.Hp <= 0)
         {
-           status.IsDying = true;
-           Destroy(objParent);
+            Dead();
         }
     }
+    #endregion
+
+    #region -- Dead --
+    private void Dead()
+    {
+        status.IsDying = true;
+        Destroy(objParent);
+    }
+    #endregion
 
     #endregion
 
