@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class CasterUpgrade : MonoBehaviour, IUpgrade
+public class MKIUpgrade : MonoBehaviour, IUpgrade
 {
     private void Start()
     {
@@ -20,15 +20,19 @@ public class CasterUpgrade : MonoBehaviour, IUpgrade
         }
     }
 
-    private void Update()
+    public void Update()
     {
-        GameObject gameManager = GameObject.FindWithTag("GameController");
-        gameCommands = gameManager.GetComponent<GameManagerCommands>();
-
         if (status.IsUpgrade)
         {
             spriteAnimator.SetActive(true);
-            animator.ChangeAnimation("Upgrade");
+            Animator effectedAni = spriteAnimator.GetComponent<Animator>();
+            effectedAni.SetBool("isUpgrade", true);
+            AnimatorStateInfo stateInfo = effectedAni.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Upgrade") && stateInfo.normalizedTime >= 1.0f)
+            {
+                effectedAni.SetBool("isUpgrade", false);
+                spriteAnimator.SetActive(false);
+            }
         }
     }
 
@@ -44,8 +48,6 @@ public class CasterUpgrade : MonoBehaviour, IUpgrade
 
         statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
 
-        statsTurrets.AtkRange += 0.2f;
-
         statsTurrets.AtkDelay -= 0.1f;
     }
     public void UpgradeLvl3()
@@ -60,8 +62,6 @@ public class CasterUpgrade : MonoBehaviour, IUpgrade
 
         statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
 
-        statsTurrets.AtkRange += 0.2f;
-
         statsTurrets.AtkDelay -= 0.1f;
     }
     public void UpgradeLvl4()
@@ -75,10 +75,6 @@ public class CasterUpgrade : MonoBehaviour, IUpgrade
         statsTurrets.Def += (int)(statsTurrets.Def * 15 / 100);
 
         statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
-
-        statsTurrets.AtkRange += 0.2f;
-
-        statsTurrets.AtkDelay -= 0.1f;
     }
     public void UpgradeLvl5()
     {
@@ -91,10 +87,6 @@ public class CasterUpgrade : MonoBehaviour, IUpgrade
         statsTurrets.Def += (int)(statsTurrets.Def * 15 / 100);
 
         statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
-
-        statsTurrets.AtkRange += 0.2f;
-
-        statsTurrets.AtkDelay -= 0.1f;
     }
 
     #region --- Field ---

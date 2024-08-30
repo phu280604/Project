@@ -109,26 +109,7 @@ public class TankH : MonoBehaviour
     #region -- Upgrade handle --
     private void UpgradeH()
     {
-        CasterUpgrade upgrade = new CasterUpgrade();
-        switch (stats.Lvl)
-        {
-            case 1:
-                upgrade.UpgradeLvl2();
-                break;
-
-            case 2:
-                upgrade.UpgradeLvl3();
-                break;
-
-            case 3:
-                upgrade.UpgradeLvl4();
-                break;
-
-            case 4:
-                upgrade.UpgradeLvl5();
-                break;
-        }
-        status.IsUpgrade = false;
+        
     }
     #endregion
 

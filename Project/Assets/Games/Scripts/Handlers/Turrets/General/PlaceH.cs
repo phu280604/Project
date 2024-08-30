@@ -248,7 +248,7 @@ public class PlaceH : MonoBehaviour
 
     [SerializeField] private GameObject objOption;
 
-    [SerializeField] private Vector3Int tilePosition;
+    [SerializeField] static private Vector3Int tilePosition;
 
     [SerializeField] private LayerMask layerMove;
     [SerializeField] private LayerMask layerPlace;

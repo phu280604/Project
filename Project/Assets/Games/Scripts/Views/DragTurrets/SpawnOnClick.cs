@@ -23,7 +23,7 @@ public class SpawnOnClick : MonoBehaviour
                 gameCommands.Cost -= stats.Cost;
                 towerPrefab.name = tower.name;
                 towerPrefab.SetActive(true);
-
+                place.FirstHighLightPlaceTouch(place.GetTouchPosition(Input.GetTouch(0)), towerPrefab);
                 turretsCommands.TurretsDeloyed.Add(towerPrefab);
             }
             else if (towerPrefab != null && gameCommands.Cost - stats.Cost >= 0)
@@ -37,13 +37,16 @@ public class SpawnOnClick : MonoBehaviour
 
     void Update()
     {
-        if (towerPrefab != null && tower.tag == towerPrefab.tag)
+        if (gameCommands.BuildingTime)
         {
-            if (!status.IsPlacing && Input.touchCount > 0)
+            if (towerPrefab != null && tower.tag == towerPrefab.tag)
             {
-                towerPrefab.SetActive(true);
-                place.FirstHighLightPlaceTouch(place.GetTouchPosition(Input.GetTouch(0)), towerPrefab);
-                towerPrefab.tag = "TurretClone";
+                if (!status.IsPlacing && Input.touchCount > 0)
+                {
+                    towerPrefab.SetActive(true);
+                    place.FirstHighLightPlaceTouch(place.GetTouchPosition(Input.GetTouch(0)), towerPrefab);
+                    towerPrefab.tag = "TurretClone";
+                }
             }
         }
     }

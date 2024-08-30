@@ -51,11 +51,15 @@ public class MKIH : MonoBehaviour
             if (enemy.Value)
             {
                 float distance = ((Vector2)(transform.position - enemy.Key.transform.position)).magnitude;
-                if (distance <= stats.AtkRange)
+                if (distance < stats.AtkRange)
                 {
                     this.enemy = enemy.Key;
                     status.IsAttacking = true;
                     break;
+                }
+                else
+                {
+                    this.enemy = null;
                 }
             }
         }
@@ -66,11 +70,11 @@ public class MKIH : MonoBehaviour
     private void Shoot()
     {
         float distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
-        if (distance <= stats.AtkRange && fireDelay == 0 && enemy != null)
+        if (distance < stats.AtkRange && fireDelay == 0 && enemy != null)
         {
             AnimationCommand animator = gameObject.GetComponent<AnimationCommand>();
             animator.ChangeAnimation("Attacking");
-            animator.SetSpeed(stats.AtkDelay);
+            animator.SetSpeed(stats.AtkDelay + 0.5f);
             shoot.Shoot(gameObject.transform.position, enemy);
         }
 
@@ -123,11 +127,12 @@ public class MKIH : MonoBehaviour
     #region -- Upgrade handle --
     private void UpgradeH()
     {
-        CasterUpgrade upgrade = new CasterUpgrade();
+        MKIUpgrade upgrade = this.gameObject.GetComponent<MKIUpgrade>();
         switch (stats.Lvl)
         {
             case 1:
                 upgrade.UpgradeLvl2();
+                Debug.Log(upgrade);
                 break;
 
             case 2:

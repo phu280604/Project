@@ -2778,10 +2778,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: MK I
       objectReference: {fileID: 0}
-    - target: {fileID: 2978606368659546233, guid: de56cc6eb8b51e5468d8321a38389052, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4100068589874998506, guid: de56cc6eb8b51e5468d8321a38389052, type: 3}
       propertyPath: gameCommands
       value: 
@@ -3077,6 +3073,7 @@ GameObject:
   - component: {fileID: 1282000454}
   - component: {fileID: 1282000457}
   - component: {fileID: 1282000458}
+  - component: {fileID: 1282000459}
   m_Layer: 5
   m_Name: TowerSnip
   m_TagString: Untagged
@@ -3223,6 +3220,23 @@ MonoBehaviour:
   spawnOnClick: {fileID: 1282000457}
   costValue: {fileID: 400438292}
   nameValue: {fileID: 1342519201}
+--- !u!114 &1282000459
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282000452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 322e3f2614ecc18469aec598f471d937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameCommands: {fileID: 736292603}
+  status: {fileID: 0}
+  spawnOnClick: {fileID: 1282000457}
+  objUpgrade: {fileID: 0}
+  upgradeBtn: {fileID: 1282000454}
 --- !u!1 &1342519199
 GameObject:
   m_ObjectHideFlags: 0
