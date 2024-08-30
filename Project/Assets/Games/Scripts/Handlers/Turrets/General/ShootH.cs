@@ -12,15 +12,11 @@ public class ShootH : MonoBehaviour
         if (enemy != null)
         {
             // Duplicate prefab.
-            bulletPrefab = Instantiate(gameObject);
+            bulletPrefab = Instantiate(this.gameObject);
 
             // Set position.
             this.enemy = enemy;
-            Vector3 dir = new Vector3(startPos.x, startPos.y, -1);
-            Vector3 dirTar = enemy.transform.position - dir;
-            dirTar.Normalize();
-            dir += dirTar;
-            bulletPrefab.transform.position = dir;
+            bulletPrefab.transform.position = new Vector3(startPos.x, startPos.y, -0.2f);
 
             // Set active.
             bulletPrefab.SetActive(true);
@@ -30,7 +26,7 @@ public class ShootH : MonoBehaviour
         }
         else
         {
-            enemy = null;
+            this.enemy = null;
         }
     }
     #endregion
@@ -50,7 +46,7 @@ public class ShootH : MonoBehaviour
             }
             else
             {
-                enemy = null;
+                this.enemy = null;
                 Destroy(gameObject);
             }
         }
@@ -79,7 +75,6 @@ public class ShootH : MonoBehaviour
     [SerializeField] private GameObject enemy;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private StatsTurrets statsTurrets;
-    [SerializeField] private RotationTurretsH rotation;
 
     [SerializeField] private int speedBullet;
     [SerializeField] private float distance;

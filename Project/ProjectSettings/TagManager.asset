@@ -10,6 +10,8 @@ TagManager:
   - TurretClone
   - OptionTurret
   - EndPoint
+  - Bullet
+  - Barrel
   layers:
   - Default
   - TransparentFX
@@ -23,15 +25,15 @@ TagManager:
   - MiniGuard
   - MiniSniper
   - Option
-  - RemoveSnip
-  - PlaceSnip
-  - BodySnip
-  - BodyDef
-  - BodyCas
-  - RemoveDef
-  - PlaceDef
-  - RemoveCas
-  - PlaceCas
+  - RemoveMKI
+  - PlaceMKI
+  - MKI
+  - Tank
+  - MKII
+  - RemoveTank
+  - PlaceTank
+  - RemoveMKII
+  - PlaceMKII
   - EliGuard
   - EliSniper
   - BossGuard

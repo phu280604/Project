@@ -14,20 +14,24 @@ public class SpawnOnClick : MonoBehaviour
 
     private void SpawnObject()
     {
-        StatsTurrets stats = tower.GetComponent<StatsTurrets>();
-        if (towerPrefab == null && gameCommands.Cost - stats.Cost >= 0)
+        if (gameCommands.BuildingTime)
         {
-            towerPrefab = Instantiate(tower);
-            gameCommands.Cost -= stats.Cost;
-            towerPrefab.name = tower.name;
+            StatsTurrets stats = tower.GetComponent<StatsTurrets>();
+            if (towerPrefab == null && gameCommands.Cost - stats.Cost >= 0)
+            {
+                towerPrefab = Instantiate(tower);
+                gameCommands.Cost -= stats.Cost;
+                towerPrefab.name = tower.name;
+                towerPrefab.SetActive(true);
 
-            turretsCommands.TurretsDeloyed.Add(towerPrefab);
-        }
-        else if (towerPrefab != null && gameCommands.Cost - stats.Cost >= 0)
-        {
-            gameCommands.Cost -= stats.Cost;
-            towerPrefab.SetActive(true);
-            place.FirstHighLightPlaceTouch(place.GetTouchPosition(Input.GetTouch(0)), towerPrefab);
+                turretsCommands.TurretsDeloyed.Add(towerPrefab);
+            }
+            else if (towerPrefab != null && gameCommands.Cost - stats.Cost >= 0)
+            {
+                gameCommands.Cost -= stats.Cost;
+                towerPrefab.SetActive(true);
+                place.FirstHighLightPlaceTouch(place.GetTouchPosition(Input.GetTouch(0)), towerPrefab);
+            }
         }
     }
 

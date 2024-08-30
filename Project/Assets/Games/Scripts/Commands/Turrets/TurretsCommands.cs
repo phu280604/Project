@@ -7,6 +7,11 @@ public class TurretsCommands : MonoBehaviour
     #region --- Method ---
     void Start()
     {
+        Invoke("SetUpTurrets", 5f);
+    }
+
+    private void SetUpTurrets()
+    {
         foreach (var item in turrets)
         {
             if (item != null)

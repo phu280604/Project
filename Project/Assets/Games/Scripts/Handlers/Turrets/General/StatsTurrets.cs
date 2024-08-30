@@ -5,7 +5,7 @@ using UnityEngine;
 public class StatsTurrets : DefaultStats
 {
     #region -- Sniper --
-    public void StatsSniper()
+    public void StatsMKI()
     {
         lvl = 1;
         cost = 12;
@@ -19,7 +19,7 @@ public class StatsTurrets : DefaultStats
     #endregion
 
     #region -- Defender --
-    public void StatsDefender()
+    public void StatsTank()
     {
         lvl = 1;
         cost = 8;
@@ -30,7 +30,7 @@ public class StatsTurrets : DefaultStats
     #endregion
 
     #region -- Caster --
-    public void StatsCaster()
+    public void StatsMKII()
     {
         lvl = 1;
         cost = 18;
