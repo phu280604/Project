@@ -18,14 +18,17 @@ public class UpdateTurretsUI : MonoBehaviour
             turrets = spawnOnClick.TurretPrefab;
         }
         stats = turrets.GetComponent<StatsTurrets>();
+        status = turrets.GetComponent<StatusH>();
 
         SetTextCost();
         SetTextName();
+        SetIconUpgrade();
     }
 
+    #region -- Set cost --
     private void SetTextCost()
     {
-        if (spawnOnClick.TurretPrefab == null || !spawnOnClick.TurretPrefab.activeSelf)
+        if (!status.IsPlacing)
         {
             if (stats.Cost < 10 && 0 <= stats.Cost)
                 costValue.text = "0" + stats.Cost.ToString();
@@ -35,7 +38,7 @@ public class UpdateTurretsUI : MonoBehaviour
             return;
         }
 
-        if (spawnOnClick.TurretPrefab.activeSelf && spawnOnClick.TurretPrefab != null)
+        if (status.IsPlacing)
         {
             if (stats.Cost < 10 && 0 <= stats.Cost)
                 costValue.text = "0" + stats.CostUpgrade.ToString();
@@ -44,10 +47,12 @@ public class UpdateTurretsUI : MonoBehaviour
             return;
         }
     }
+    #endregion
 
+    #region -- Set name --
     private void SetTextName()
     {
-        if (spawnOnClick.TurretPrefab == null || !spawnOnClick.TurretPrefab.activeSelf)
+        if (!status.IsPlacing)
         {
             nameValue.text = spawnOnClick.Turret.name;
         }
@@ -63,6 +68,37 @@ public class UpdateTurretsUI : MonoBehaviour
             }
         }
     }
+    #endregion
+
+    #region -- Set icon upgrade --
+    private void SetIconUpgrade()
+    {
+        if (spawnOnClick.TurretPrefab != null)
+        {
+            StatusH statusChecker = spawnOnClick.TurretPrefab.GetComponent<StatusH>();
+            StatsTurrets statsChecker = spawnOnClick.TurretPrefab.GetComponent<StatsTurrets>();
+            if (statusChecker.IsPlacing)
+            {
+                if (statsChecker.Lvl < 5)
+                {
+                    iconUpgrade.SetActive(true);
+                }
+                else
+                {
+                    iconUpgrade.SetActive(false);
+                }
+            }
+            else
+            {
+                iconUpgrade.SetActive(false);
+            }
+        }
+        else
+        {
+            iconUpgrade.SetActive(false);
+        }
+    }
+    #endregion
 
     #endregion
 
@@ -70,12 +106,13 @@ public class UpdateTurretsUI : MonoBehaviour
 
     [Header("Turrets coponent")]
     private StatsTurrets stats;
-    [SerializeField] private SpawnOnClick spawnOnClick;
+    private StatusH status;
+    [SerializeField] private ButtonOnClickEvent spawnOnClick;
 
     [Header("Text values")]
     [SerializeField] private TextMeshProUGUI costValue;
     [SerializeField] private TextMeshProUGUI nameValue;
-
+    [SerializeField] private GameObject iconUpgrade;
     private GameObject turrets;
     
     #endregion

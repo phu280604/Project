@@ -32,6 +32,10 @@ public class PauseStartH : MonoBehaviour
             gameManagerCommands.StartTime = true;
             gameManagerCommands.BuildingTime = false;
 
+            GameObject startIcon = GameObject.Find("Start");
+            if (startIcon != null)
+                startIcon.SetActive(false);
+
             start.SetActive(false);
             pause.SetActive(true);
             

@@ -23,8 +23,6 @@ public class AnimationCommand : MonoBehaviour
     #region --- Field ---
 
     [SerializeField] private Animator animator;
-    [SerializeField] private GameObject effected;
-    [SerializeField] private StatusH status;
     [SerializeField] private string curAni;
 
     #endregion

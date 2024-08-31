@@ -14,7 +14,8 @@ public class TDmgReceiverH : MonoBehaviour
             stats.Hp -= 1;
         else if (dmgDeal > 0)
             stats.Hp -= dmgDeal;
-                
+
+        healthBar.UpdateHelthBar(stats.Hp, stats.MaxHP);
 
         if (stats.Hp <= 0)
         {
@@ -35,6 +36,7 @@ public class TDmgReceiverH : MonoBehaviour
 
     #region --- Field --- 
 
+    [SerializeField] private THealthBarCtrl healthBar;
     [SerializeField] private StatsTurrets stats;
     [SerializeField] private StatusH status;
     [SerializeField] private GameObject objParent;

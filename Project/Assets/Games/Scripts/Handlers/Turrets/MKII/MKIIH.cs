@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading;
@@ -51,11 +51,15 @@ public class MKIIH : MonoBehaviour
             if (enemy.Value)
             {
                 float distance = ((Vector2)(transform.position - enemy.Key.transform.position)).magnitude;
-                if (distance <= stats.AtkRange)
+                if (distance < stats.AtkRange)
                 {
                     this.enemy = enemy.Key;
                     status.IsAttacking = true;
                     break;
+                }
+                else
+                {
+                    this.enemy = null;
                 }
             }
         }
@@ -66,13 +70,21 @@ public class MKIIH : MonoBehaviour
     private void Shoot()
     {
         float distance = ((Vector2)(transform.position - enemy.transform.position)).magnitude;
-        if (distance <= stats.AtkRange && fireDelay == 0)
-            shoot.Shoot(transform.position, enemy);
-
-        if (distance > stats.AtkRange)
+        if (distance < stats.AtkRange && fireDelay == 0 && enemy != null)
         {
+            AnimationCommand animator = gameObject.GetComponent<AnimationCommand>();
+            animator.ChangeAnimation("Attacking");
+            animator.SetSpeed(stats.AtkDelay + 0.5f);
+            shoot.Shoot(gameObject.transform.position, enemy);
+        }
+
+        if (distance > stats.AtkRange && enemy != null)
+        {
+            AnimationCommand animator = gameObject.GetComponent<AnimationCommand>();
+            animator.ChangeAnimation("Idle");
+            animator.SetSpeed(1f);
             enemy = null;
-            shoot.Shoot(transform.position, enemy);
+            shoot.Shoot(gameObject.transform.position, enemy);
         }
     }
     #endregion
@@ -111,23 +123,51 @@ public class MKIIH : MonoBehaviour
     #region -- Upgrade handle --
     private void UpgradeH()
     {
-        
+        MKIIUpgrade upgrade = this.gameObject.GetComponent<MKIIUpgrade>();
+        switch (stats.Lvl)
+        {
+            case 1:
+                upgrade.UpgradeLvl2();
+                break;
+
+            case 2:
+                upgrade.UpgradeLvl3();
+                break;
+
+            case 3:
+                upgrade.UpgradeLvl4();
+                break;
+
+            case 4:
+                upgrade.UpgradeLvl5();
+                break;
+        }
+        effSprite.SetActive(true);
+        status.IsUpgrade = false;
     }
     #endregion
 
     private void Update()
     {
+        if (gameCommands.BuildingTime)
+        {
+            if (status.IsPlacing && status.IsUpgrade)
+            {
+                UpgradeH();
+            }
+        }
+
         if (!gameCommands.PauseTime)
         {
-            EnemiesChecker();
+
+            if (enemy == null)
+            {
+                EnemiesChecker();
+            }
+
             if (status.IsPlacing && status.IsAttacking)
             {
                 AttackingH();
-            }
-
-            if (status.IsUpgrade)
-            {
-                UpgradeH();
             }
         }
     }
@@ -146,6 +186,7 @@ public class MKIIH : MonoBehaviour
     private EnemiesCommands enemyCommands;
 
     [Header("Values")]
+    [SerializeField] private GameObject effSprite;
     [SerializeField] private float fireDelay;
     private GameObject enemy;
 

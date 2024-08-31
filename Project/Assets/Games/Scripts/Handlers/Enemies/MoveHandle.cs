@@ -13,28 +13,40 @@ public class MoveHandle : MonoBehaviour
     {
         switch (layer)
         {
-            case int n when n == LayerMask.GetMask("MiniVan"):
-                stats.MiniVan();
+            case int n when n == LayerMask.GetMask("Mushroom"):
+                stats.Mushroom();
                 break;
 
-            case int n when n == LayerMask.GetMask("MiniGuard"):
-                stats.MiniGuard();
+            case int n when n == LayerMask.GetMask("Skeleton"):
+                stats.Skeleton();
                 break;
 
-            case int n when n == LayerMask.GetMask("MiniSniper"):
-                stats.MiniSniper();
+            case int n when n == LayerMask.GetMask("Bat"):
+                stats.Bat();
                 break;
 
-            case int n when n == LayerMask.GetMask("EliGuard"):
-                stats.EliGuard();
+            case int n when n == LayerMask.GetMask("ToothWalker"):
+                stats.ToothWaler();
                 break;
 
-            case int n when n == LayerMask.GetMask("EliSniper"):
-                stats.EliSniper();
+            case int n when n == LayerMask.GetMask("Goblin"):
+                stats.Goblin();
                 break;
 
-            case int n when n == LayerMask.GetMask("BossGuard"):
-                stats.BossGuard();
+            case int n when n == LayerMask.GetMask("FlyingEye"):
+                stats.FlyingEye();
+                break;
+
+            case int n when n == LayerMask.GetMask("TrashMonster"):
+                stats.TrashMonster();
+                break;
+
+            case int n when n == LayerMask.GetMask("Golem"):
+                stats.Golem();
+                break;
+
+            case int n when n == LayerMask.GetMask("FireWorm"):
+                stats.FireWorm();
                 break;
 
             default:

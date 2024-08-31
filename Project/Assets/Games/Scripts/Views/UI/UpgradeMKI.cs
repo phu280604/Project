@@ -9,10 +9,10 @@ public class UpgradeMKI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        upgradeBtn.onClick.AddListener(Upgrade);
+       // upgradeBtn.onClick.AddListener(Upgrade);
     }
 
-    private void Upgrade()
+    /*private void Upgrade()
     {
         if (gameCommands.BuildingTime)
         {
@@ -27,13 +27,13 @@ public class UpgradeMKI : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 
     #region --- Field ---
 
     [SerializeField] private GameManagerCommands gameCommands;
     [SerializeField] private StatusH status;
-    [SerializeField] private SpawnOnClick spawnOnClick;
+    [SerializeField] private ButtonOnClickEvent spawnOnClick;
     [SerializeField] private GameObject objUpgrade;
 
     [SerializeField] private Button upgradeBtn;

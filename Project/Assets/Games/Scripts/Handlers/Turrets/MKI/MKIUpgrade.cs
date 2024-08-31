@@ -12,7 +12,7 @@ public class MKIUpgrade : MonoBehaviour, IUpgrade
             spriteAnimator.SetActive(true);
             if (spriteAnimator != null && spriteAnimator.activeSelf)
                 animator = spriteAnimator.GetComponent<AnimationCommand>();
-
+            gameCommands = GameObject.FindWithTag("GameController").GetComponent<GameManagerCommands>();
             casterTurrets = this.gameObject;
             status = this.gameObject.GetComponent<StatusH>();
             statsTurrets = casterTurrets.GetComponent<StatsTurrets>();
@@ -38,20 +38,24 @@ public class MKIUpgrade : MonoBehaviour, IUpgrade
 
     public void UpgradeLvl2()
     {
+        gameCommands.Cost -= statsTurrets.CostUpgrade;
+
         statsTurrets.Lvl += 1;
-        statsTurrets.CostUpgrade += 2;
+        statsTurrets.CostUpgrade += 1;
 
         statsTurrets.MaxHP += (int)(statsTurrets.MaxHP * 15 / 100);
         statsTurrets.Hp = statsTurrets.MaxHP;
 
         statsTurrets.Def += (int)(statsTurrets.Def * 15 / 100);
 
-        statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
+        statsTurrets.Atk += (int)(statsTurrets.Atk * 25 / 100);
 
         statsTurrets.AtkDelay -= 0.1f;
     }
     public void UpgradeLvl3()
     {
+        gameCommands.Cost -= statsTurrets.CostUpgrade;
+
         statsTurrets.Lvl += 1;
         statsTurrets.CostUpgrade += 1;
 
@@ -60,12 +64,14 @@ public class MKIUpgrade : MonoBehaviour, IUpgrade
 
         statsTurrets.Def += (int)(statsTurrets.Def * 15 / 100);
 
-        statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
+        statsTurrets.Atk += (int)(statsTurrets.Atk * 25 / 100);
 
         statsTurrets.AtkDelay -= 0.1f;
     }
     public void UpgradeLvl4()
     {
+        gameCommands.Cost -= statsTurrets.CostUpgrade;
+
         statsTurrets.Lvl += 1;
         statsTurrets.CostUpgrade += 1;
 
@@ -74,10 +80,12 @@ public class MKIUpgrade : MonoBehaviour, IUpgrade
 
         statsTurrets.Def += (int)(statsTurrets.Def * 15 / 100);
 
-        statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
+        statsTurrets.Atk += (int)(statsTurrets.Atk * 25 / 100);
     }
     public void UpgradeLvl5()
     {
+        gameCommands.Cost -= statsTurrets.CostUpgrade;
+
         statsTurrets.Lvl += 1;
         statsTurrets.CostUpgrade = 0;
 
@@ -86,7 +94,7 @@ public class MKIUpgrade : MonoBehaviour, IUpgrade
 
         statsTurrets.Def += (int)(statsTurrets.Def * 15 / 100);
 
-        statsTurrets.Atk += (int)(statsTurrets.Atk * 20 / 100);
+        statsTurrets.Atk += (int)(statsTurrets.Atk * 25 / 100);
     }
 
     #region --- Field ---

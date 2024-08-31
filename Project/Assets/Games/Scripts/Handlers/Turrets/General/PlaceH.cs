@@ -8,7 +8,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlaceH : MonoBehaviour
 {
@@ -154,11 +153,6 @@ public class PlaceH : MonoBehaviour
                         HighLightTileMap(tilePosition);
                         objOption.SetActive(true);
 
-                        if (objOption.activeSelf)
-                        {
-                            status.IsPlacing = false;
-                        }
-
                         isDragging = true;
                     }
 
@@ -167,13 +161,37 @@ public class PlaceH : MonoBehaviour
                     RaycastHit2D hitRemove = Physics2D.Raycast(touchPosition, Vector2.zero, 0.1f, layerRemove);
                     if (hitRemove.collider != null)
                     {
-                        StatsTurrets stats = gameObject.GetComponent<StatsTurrets>();
-                        gameCommands.Cost += stats.Cost;
                         tileMap.SetTileFlags(tilePosition, TileFlags.None);
                         tileMap.SetColor(tilePosition, Color.white);
 
-                        int index = commands.TurretsDeloyed.IndexOf(gameObject);
-                        commands.TurretsDeloyed[index].SetActive(false);
+                        if (status.IsPlacing)
+                        {
+                            StatsTurrets stats = gameObject.GetComponent<StatsTurrets>();
+
+                            switch (gameObject.layer)
+                            {
+                                case int n when n == LayerMask.GetMask("MKI"):
+                                    stats.StatsMKI();
+                                    break;
+
+                                case int n when n == LayerMask.GetMask("MKII"):
+                                    stats.StatsMKII();
+                                    break;
+
+                                case int n when n == LayerMask.GetMask("Tank"):
+                                    stats.StatsTank();
+                                    break;
+                            }
+                            healthBar.UpdateHelthBar(0f, stats.MaxHP);
+                            gameCommands.Cost += stats.Cost;
+                            Destroy(gameObject);
+                        }
+                        else
+                        {
+                            Destroy(gameObject);
+                        }
+
+                        
                     }
 
                     // Placing object
@@ -182,6 +200,13 @@ public class PlaceH : MonoBehaviour
                     {
                         if ((Vector2)gameObject.transform.position != (Vector2)mapD.StartPoint && (Vector2)mapD.EndPoint != (Vector2)gameObject.transform.position)
                         {
+                            if (!status.IsPlacing)
+                            {
+                                StatsTurrets stats = gameObject.GetComponent<StatsTurrets>();
+                                gameCommands.Cost -= stats.Cost;
+                                healthBar.UpdateHelthBar(stats.Hp, stats.MaxHP);
+                            }
+
                             tileMap.SetTileFlags(tilePosition, TileFlags.None);
                             tileMap.SetColor(tilePosition, Color.white);
 
@@ -227,7 +252,6 @@ public class PlaceH : MonoBehaviour
     }
     #endregion
 
-
     private void Update()
     {
         if (gameCommands.BuildingTime)
@@ -241,6 +265,8 @@ public class PlaceH : MonoBehaviour
     #region --- Field ---
 
     [SerializeField] private GameManagerCommands gameCommands;
+
+    [SerializeField] private THealthBarCtrl healthBar;
     [SerializeField] private TurretsCommands commands;
     [SerializeField] private StatusH status;
     [SerializeField] private Tilemap tileMap;

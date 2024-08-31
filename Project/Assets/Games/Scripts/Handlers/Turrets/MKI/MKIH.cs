@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
@@ -36,7 +36,6 @@ public class MKIH : MonoBehaviour
         {
             SetComponent();
             StatsSetUp();
-            
 
             fireDelay = 0;
             enemy = null;
@@ -114,7 +113,6 @@ public class MKIH : MonoBehaviour
     {
         if (enemy != null)
         {
-            Debug.Log(enemy);
             RotationTurrets();
             Shoot();
             DelayTimer();
@@ -132,7 +130,6 @@ public class MKIH : MonoBehaviour
         {
             case 1:
                 upgrade.UpgradeLvl2();
-                Debug.Log(upgrade);
                 break;
 
             case 2:
@@ -147,14 +144,24 @@ public class MKIH : MonoBehaviour
                 upgrade.UpgradeLvl5();
                 break;
         }
+        effSprite.SetActive(true);
         status.IsUpgrade = false;
     }
     #endregion
 
     private void Update()
     {
+        if (gameCommands.BuildingTime)
+        {
+            if (status.IsPlacing && status.IsUpgrade)
+            {
+                UpgradeH();
+            }
+        }
+
         if (!gameCommands.PauseTime)
         {
+
             if (enemy == null)
             {
                 EnemiesChecker();
@@ -163,11 +170,6 @@ public class MKIH : MonoBehaviour
             if (status.IsPlacing && status.IsAttacking)
             {
                 AttackingH();
-            }
-
-            if (status.IsUpgrade)
-            {
-                UpgradeH();
             }
         }
     }
@@ -186,6 +188,7 @@ public class MKIH : MonoBehaviour
     private EnemiesCommands enemyCommands;
 
     [Header("Values")]
+    [SerializeField] private GameObject effSprite;
     [SerializeField] private float fireDelay;
     [SerializeField] private GameObject enemy;
 

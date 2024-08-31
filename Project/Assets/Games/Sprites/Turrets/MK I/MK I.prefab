@@ -396,7 +396,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1, y: 1, z: 0.9}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 490040155213840520}
@@ -445,6 +445,7 @@ MonoBehaviour:
   gameCommands: {fileID: 0}
   rotationBarrel: {fileID: 6584548659891997797}
   shoot: {fileID: 8370255623733976226}
+  effSprite: {fileID: 8245590050963095946}
   fireDelay: 0
   enemy: {fileID: 0}
 --- !u!114 &2225720847021083167
@@ -476,6 +477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCommands: {fileID: 0}
+  healthBar: {fileID: 0}
   commands: {fileID: 0}
   status: {fileID: 2225720847021083167}
   tileMap: {fileID: 0}
@@ -504,8 +506,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 3352353518332175084}
-  effected: {fileID: 8245590050963095946}
-  status: {fileID: 2225720847021083167}
   curAni: 
 --- !u!114 &7261849646047418336
 MonoBehaviour:
@@ -1066,6 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0cfd9ebf0cc4c4b8c0c31d446d141f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
   stats: {fileID: 9139452220225203463}
   status: {fileID: 2225720847021083167}
   objParent: {fileID: 2978606368659546233}
@@ -1316,6 +1317,7 @@ GameObject:
   - component: {fileID: 112887770086082001}
   - component: {fileID: 2943565533327940353}
   - component: {fileID: 5401515902836950938}
+  - component: {fileID: 5094036309925740447}
   m_Layer: 14
   m_Name: Effect
   m_TagString: Untagged
@@ -1332,8 +1334,8 @@ Transform:
   m_GameObject: {fileID: 8245590050963095946}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.008, y: 0.065, z: -0.2}
-  m_LocalScale: {x: 1.3563043, y: 1.9828336, z: 1}
+  m_LocalPosition: {x: 0.0158, y: 0.1581, z: -0.2}
+  m_LocalScale: {x: 1.8198254, y: 2.3275769, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 490040155213840520}
@@ -1411,6 +1413,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5094036309925740447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8245590050963095946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb6988f6af73c542b082ffa9d808245, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2943565533327940353}
 --- !u!1 &8912372971039949957
 GameObject:
   m_ObjectHideFlags: 0

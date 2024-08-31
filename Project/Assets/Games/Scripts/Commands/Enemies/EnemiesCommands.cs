@@ -7,7 +7,7 @@ public class EnemiesCommands : MonoBehaviour
 {
     #region --- Method ---
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (enemies.Count == enemiesCount && nextWave)
         {

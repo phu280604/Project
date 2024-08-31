@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.UIElements;
 using UnityEngine;
 
 public class SpawnHandle : MonoBehaviour
@@ -11,9 +10,19 @@ public class SpawnHandle : MonoBehaviour
     #region -- Spawn minion --
     private void SpawnMinion()
     {
-        foreach (var item in minion)
+        List<GameObject> minionNums = new List<GameObject>();
+        while (minionNums.Count < 3)
         {
-            int nums = Random.Range(1 + gameCommands.Wave, 4 + gameCommands.Wave);
+            int rnd = Random.Range(0, minion.Count);
+            if (!minionNums.Contains(minion[rnd]))
+            {
+                minionNums.Add(minion[rnd]);
+            }
+        }
+
+        foreach (var item in minionNums)
+        {
+            int nums = Random.Range(1 + gameCommands.Wave, 3 + gameCommands.Wave);
             if (!quanlity.ContainsKey(item))
             {
                 quanlity[item] = nums;
@@ -26,9 +35,19 @@ public class SpawnHandle : MonoBehaviour
     #region -- Spawn elite --
     private void SpawnElite()
     {
-        foreach (var item in elite)
+        List<GameObject> eliteNums = new List<GameObject>();
+        while (eliteNums.Count < 2)
         {
-            int nums = Random.Range(2 + gameCommands.Wave, 4 + (gameCommands.Wave / 2));
+            int rnd = Random.Range(0, elite.Count);
+            if (!eliteNums.Contains(elite[rnd]))
+            {
+                eliteNums.Add(elite[rnd]);
+            }
+        }
+
+        foreach (var item in eliteNums)
+        {
+            int nums = Random.Range(2 + gameCommands.Wave, 3 + (gameCommands.Wave / 2));
             if (!quanlity.ContainsKey(item))
             {
                 quanlity[item] = nums;
@@ -41,9 +60,19 @@ public class SpawnHandle : MonoBehaviour
     #region -- Spawn boss --
     private void SpawnBoss()
     {
-        if (!quanlity.ContainsKey(boss))
+        List<GameObject> bossNums = new List<GameObject>();
+        while (bossNums.Count < 1)
         {
-            quanlity[boss] = 1;
+            int rnd = Random.Range(0, boss.Count);
+            if (!bossNums.Contains(boss[rnd]))
+            {
+                bossNums.Add(boss[rnd]);
+            }
+        }
+
+        if (!quanlity.ContainsKey(bossNums[0]))
+        {
+            quanlity[bossNums[0]] = 1;
             maxEnemies += 1;
         }
     }
@@ -92,7 +121,7 @@ public class SpawnHandle : MonoBehaviour
     {
         if (gameCommands.Wave < 6)
         {
-            if (!gameCommands.PauseTime)
+            if (!gameCommands.PauseTime && !ui.activeSelf)
             {
                 if (!spawned)
                 {
@@ -104,6 +133,8 @@ public class SpawnHandle : MonoBehaviour
                     enemiesList = enemiesList.OrderBy(item => rnd.Next()).ToList();
 
                     spawned = true;
+
+                    commands.NextWave = true;
                 }
 
                 if (spawn == 0 && curEnemies < maxEnemies)
@@ -111,7 +142,6 @@ public class SpawnHandle : MonoBehaviour
                 else if (spawn != 0 && curEnemies < maxEnemies)
                 {
                     DelaySpawn();
-                    commands.NextWave = true;
                 }
             }
         }
@@ -170,11 +200,12 @@ public class SpawnHandle : MonoBehaviour
     [SerializeField] private EnemiesCommands commands;
     [SerializeField] private List<GameObject> minion;
     [SerializeField] private List<GameObject> elite;
-    [SerializeField] private GameObject boss;
+    [SerializeField] private List<GameObject> boss;
     private Dictionary<GameObject, int> quanlity;
 
     [Header("Wave")]
     [SerializeField] private int curWave;
+    [SerializeField] private GameObject ui;
 
     [Header("Duplicate enemies")]
     [SerializeField] private int curDup;

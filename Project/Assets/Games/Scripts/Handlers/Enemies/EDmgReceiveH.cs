@@ -17,6 +17,15 @@ public class EDmgReceiverH : MonoBehaviour
             else if (dmgDeal > 0)
                 stats.Hp -= dmgDeal;
 
+            if (gameCommands.Wave != 5)
+            {
+                eHealthBar.UpdateHelthBar(stats.Hp, stats.MaxHP);
+            }
+            else
+            {
+                bHealthBar.UpdateBossHealth(stats.Hp, stats.MaxHP);
+            }
+
             aniCommands.ChangeAnimation("Hitting");
             bool lastStatus = status.IsMoving;
             status.IsMoving = false;
@@ -88,6 +97,9 @@ public class EDmgReceiverH : MonoBehaviour
     [SerializeField] private AnimationCommand aniCommands;
 
     [SerializeField] private GameObject objParent;
+
+    [SerializeField] private EHealthBarCtrl eHealthBar;
+    [SerializeField] private BossHealthBarCtrl bHealthBar;
 
     #endregion
 }

@@ -13,6 +13,8 @@ public class GameManagerCommands : MonoBehaviour
         pause = true;
         building = true;
 
+        checker = false;
+
         wave = 1;
         hp = 1000;
         cost = 30;
@@ -20,9 +22,71 @@ public class GameManagerCommands : MonoBehaviour
 
     private void Update()
     {
-        if (hp <= 0)
+        if (hp <= 0 && !checker)
         {
-            Time.timeScale = 0f;
+            pause = true;
+            start = false;
+            building = false;
+
+            List<GameObject> listEnemies = new List<GameObject>(enemies.Enemies.Keys);
+            foreach(var enemy in listEnemies)
+            {
+                enemies.Enemies.Remove(enemy);
+                Destroy(enemy);
+            }
+
+            GameObject[] turretsDeloy = GameObject.FindGameObjectsWithTag("TurretClone");
+            List<GameObject> turrets = new List<GameObject>(turretsDeloy);
+            foreach (var turret in turrets)
+            {
+                Destroy(turret);
+            }
+
+            map.SetActive(false);
+
+            mainUI.SetActive(false);
+            uiDefeat.SetActive(true);
+            uiVictory.SetActive(false);
+
+            checker = true;
+        }
+
+        if (wave >= 6 && checker)
+        {
+            pause = false;
+            start = false;
+            building = false;
+
+            List<GameObject> listEnemies = new List<GameObject>(enemies.Enemies.Keys);
+            foreach (var enemy in listEnemies)
+            {
+                enemies.Enemies.Remove(enemy);
+                Destroy(enemy);
+            }
+
+            GameObject[] turretsDeloy = GameObject.FindGameObjectsWithTag("TurretClone");
+            List<GameObject> turrets = new List<GameObject>(turretsDeloy);
+            foreach (var turret in turrets)
+            {
+                Destroy(turret);
+            }
+
+            map.SetActive(false);
+
+            bossHealthBar.SetActive(false);
+
+            mainUI.SetActive(false);
+            uiDefeat.SetActive(false);
+            uiVictory.SetActive(true);
+
+            checker = false;
+        }
+
+        if (wave == 5 && start && !checker && enemies.Enemies.Count == 1)
+        {
+            bossHealthBar.SetActive(true);
+
+            checker = true;
         }
     }
 
@@ -43,6 +107,15 @@ public class GameManagerCommands : MonoBehaviour
     private bool start;
     private bool pause;
     private bool building;
+
+    [SerializeField] private GameObject mainUI;
+    [SerializeField] private GameObject uiDefeat;
+    [SerializeField] private GameObject uiVictory;
+    [SerializeField] private GameObject map;
+    [SerializeField] private GameObject bossHealthBar;
+    [SerializeField] private EnemiesCommands enemies;
+
+    private bool checker;
 
     [SerializeField] private static int wave;
     [SerializeField] private static float hp;

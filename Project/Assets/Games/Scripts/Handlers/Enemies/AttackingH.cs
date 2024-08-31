@@ -29,7 +29,7 @@ public class AttackingH : MonoBehaviour
         else if (target != null && target.tag == "EndPoint")
         {
             int dmgDeal = (int)(stats.Atk * 30 / 100);
-            dmgDeal = dmgDeal - (dmgDeal % 5);
+            dmgDeal = dmgDeal - (dmgDeal % 3);
 
             gameCommands.HP -= dmgDeal;
         }
